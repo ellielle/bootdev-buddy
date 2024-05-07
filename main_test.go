@@ -21,7 +21,7 @@ func TestMain(t *testing.T) {
 	// and that the function works itself
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := bootDevAPI(tc.input)
+			got, _ := bootDevAPI(tc.input)
 			diff := cmp.Diff(tc.want, got)
 			if diff != "" {
 				t.Fatalf(diff)
