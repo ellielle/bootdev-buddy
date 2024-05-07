@@ -14,7 +14,7 @@ func main() {
 	// terminate the program
 	URL, err := bootDevAPI(site)
 	if err != nil {
-		log.Fatalf("Invalid API option\nValid options: archmage | stats | daily | karma\n")
+		log.Fatalf("invalid api option\nvalid options: archmage | stats | daily | karma\n")
 	}
 
 	getDBArchmages(URL)
@@ -33,7 +33,7 @@ func bootDevAPI(URL string) (string, error) {
 	api["daily"] = "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"
 	api["karma"] = "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=30"
 	if _, ok := api[URL]; !ok {
-		return "", errors.New("Invalid API")
+		return "", errors.New("invalid api")
 
 	}
 	return api[URL], nil
