@@ -1,47 +1,26 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
-	"strings"
-
-	"golang.org/x/net/html"
-	"golang.org/x/net/html/atom"
 )
 
-func getBDLeaderboard() {
-	const LEADERBOARD = "https://boot.dev/leaderboard"
-
-	req, err := http.NewRequest("GET", LEADERBOARD, nil)
+func getDBArchmages(leaderboard string) {
+	// create a new request to https://api.boot.dev/v1/leaderboard_archmage
+	req, err := http.Get(leaderboard)
 	if err != nil {
-		log.Fatalf("Couldn't create request %v", err.Error())
+		log.Fatalf("Something is wrong with the request URL, %v", err.Error())
 	}
 
-	// TODO: find the href "/u/"
-	resp, err := http.DefaultClient.Do(req)
+	archmages := []Archmage{}
+	decoder := json.NewDecoder(req.Body)
+	err = decoder.Decode(&archmages)
 	if err != nil {
-		log.Fatalf("Couldn't get leaderboard: %v", err.Error())
+		log.Fatalf("Error marshaling JSON data: %v", err.Error())
 	}
 
-	body, err := html.Parse(resp.Body)
-	if err != nil {
-		log.Fatalf("Error parsing html: %v", err.Error())
-	}
+	log.Println(decoder)
 
-	// matching function to only grab data from the Archmage section
-	matcher := func(node *html.Node) (keep bool, exit bool) {
-		if node.Type == html.ElementNode && strings.TrimSpace(node.Data) != "" {
-			keep = true
-		}
-		if node.DataAtom == atom.Svg {
-			exit = true
-		}
-		return
-	}
-
-	nodes := traverseNodes(body, matcher)
-	for i, node := range nodes {
-
-	}
-
+	// FIXME: decoder has value, convert to json to see what you're working with
 }
