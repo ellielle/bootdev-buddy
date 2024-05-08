@@ -1,2 +1,2 @@
 #!/bin/zsh
-watchexec -c clear -o do-nothing -d 1000ms -e go "go build -o bootdevstats && go test -cover ./... && staticcheck ./..."
+watchexec -c clear -o do-nothing -d 1000ms -e go "go build -o bootdevstats && go test -cover ./... && echo 'staticcheck: ' && staticcheck ./... "
