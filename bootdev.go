@@ -5,6 +5,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+
+	"github.com/ellielle/bootdev-stats/internal/cache"
 )
 
 func check(e error, message string) {
@@ -14,9 +16,12 @@ func check(e error, message string) {
 }
 
 func getDBArchmages(leaderboard string) {
+
 	// Create a new request to https://api.boot.dev/v1/leaderboard_archmage
 	req, err := http.NewRequest("GET", leaderboard, nil)
 	check(err, "Something is wrong with the request URL, %v")
+
+	// Check cache for a hit before requesting
 
 	// Send that request out!
 	resp, err := http.DefaultClient.Do(req)

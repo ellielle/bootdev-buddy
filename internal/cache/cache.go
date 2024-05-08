@@ -50,14 +50,6 @@ func (c *Cache) Get(entry string) ([]byte, bool) {
 	return data.val, ok
 }
 
-func (c *Cache) Write() error {
-	// TODO: complete with other endpoints
-	c.mu.Lock()
-	defer c.mu.Unlock()
-
-	return nil
-}
-
 // reapLoop controls the removal of old cache entries
 // by reaping entries older than time.Now() + interval
 func (c *Cache) reapLoop(interval time.Duration) {
