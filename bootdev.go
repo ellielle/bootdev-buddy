@@ -29,11 +29,15 @@ func getDBArchmages(leaderboard string) {
 	err = decoder.Decode(&archmages)
 	check(err, "Error marshaling JSON data: %v")
 
-	log.Println(archmages[0].Handle)
-
 	// FIXME: decoder has value, convert to json to see what you're working with
-	file, err := os.Create("archmages.json")
+	file, err := os.Create("./archmages.json")
 	check(err, "Error creating archmages.json: %v")
 	defer file.Close()
 
+	mages, err := json.Marshal(archmages)
+	check(err, "Error marshalling archmages")
+
+	file.Write(mages)
+
+	file.Sync()
 }

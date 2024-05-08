@@ -18,6 +18,8 @@ type Cache struct {
 	mu      *sync.RWMutex
 }
 
+// NewCache creates a new Cache to be used
+// during the session
 func NewCache(interval time.Duration) Cache {
 	cache := Cache{
 		Entries: make(map[string]cacheEntry),
@@ -28,6 +30,7 @@ func NewCache(interval time.Duration) Cache {
 	return cache
 }
 
+// Add creates a new entry in the cache
 func (c *Cache) Add(key string, val *[]byte) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -38,6 +41,7 @@ func (c *Cache) Add(key string, val *[]byte) {
 	}
 }
 
+// Get attempts to retrieve an entry from the cache
 func (c *Cache) Get(entry string) ([]byte, bool) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
@@ -46,6 +50,16 @@ func (c *Cache) Get(entry string) ([]byte, bool) {
 	return data.val, ok
 }
 
+func (c *Cache) Write() error {
+	// TODO: complete with other endpoints
+	c.mu.Lock()
+	defer c.mu.Unlock()
+
+	return nil
+}
+
+// reapLoop controls the removal of old cache entries
+// by reaping entries older than time.Now() + interval
 func (c *Cache) reapLoop(interval time.Duration) {
 	ticker := time.NewTicker(interval)
 	for range ticker.C {
@@ -54,6 +68,7 @@ func (c *Cache) reapLoop(interval time.Duration) {
 	}
 }
 
+// reap deletes old entries from the cache
 func (c *Cache) reap(now time.Time, interval time.Duration) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
