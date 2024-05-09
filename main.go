@@ -1,43 +1,31 @@
 package main
 
 import (
-	"errors"
 	"log"
 	"os"
+	"time"
+
+	bd "github.com/ellielle/bootdev-stats/internal/bootdevapi"
+	"github.com/ellielle/bootdev-stats/internal/cache"
 )
 
-type Cache struct {
+type Client struct {
+	cache cache.Cache
 }
 
 func main() {
 	// get the page to crawl from site variable "SITE"
 	site := os.Getenv("SITE")
+	c := Client{
+		cache: cache.NewCache(60 * time.Second),
+	}
 
 	// if the ENV variable "SITE" doesn't have a valid option,
 	// terminate the program
-	URL, err := bootDevAPI(site)
+	URL, err := bd.BootDevAPIMap(site)
 	if err != nil {
 		log.Fatalf("invalid api option\nvalid options: archmage | stats | daily | karma\n")
 	}
 
-	getDBArchmages(URL)
-}
-
-// bootDevAPI takes any of the strings below
-// as map keys, and returns the url for that endpoint
-// archmage = Archmage Leaderboard data
-// stats = Global daily stats
-// daily = Top daily learners - based on XP earned
-// karma: Discord community leaderboard - based on a bunch of Discordiness
-func bootDevAPI(URL string) (string, error) {
-	api := make(map[string]string)
-	api["archmage"] = "https://api.boot.dev/v1/leaderboard_archmage"
-	api["stats"] = "https://api.boot.dev/v1/leaderboard_stats"
-	api["daily"] = "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"
-	api["karma"] = "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=30"
-	if _, ok := api[URL]; !ok {
-		return "", errors.New("invalid api")
-
-	}
-	return api[URL], nil
+	bd.GetArchmages(URL, c.cache)
 }
