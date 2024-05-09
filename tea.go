@@ -40,7 +40,7 @@ func initialModel() model {
 }
 
 func (m model) Init() tea.Cmd {
-	return nil
+	return tea.SetWindowTitle("BootDev Stats")
 }
 
 func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
