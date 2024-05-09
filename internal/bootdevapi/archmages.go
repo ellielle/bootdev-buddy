@@ -27,7 +27,7 @@ func GetArchmages(leaderboard string, c cache.Cache) error {
 	if ok {
 		err := json.Unmarshal(cacheHit, &archmages)
 		if err != nil {
-			return errors.New("Error unmarshaling cache")
+			return errors.New("error unmarshaling cache")
 		}
 		// TODO: wait for TUI
 		return nil
