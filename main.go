@@ -8,9 +8,6 @@ import (
 )
 
 func main() {
-	// NOTE: client may be rewritten as TUI is implemented
-	// TODO: GetArchmages
-
 	// create a new Bubble Tea program
 	// exit the program with a non-zero exit code
 	// if something is amiss

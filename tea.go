@@ -12,6 +12,9 @@ import (
 // FIXME: revisit this and determine if it's better
 // to send it on its own
 
+// NOTE: client may be rewritten as TUI is implemented
+// TODO: GetArchmages
+
 // Send the cache along for the ride
 type Client struct {
 	cache cache.Cache
