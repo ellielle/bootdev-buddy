@@ -44,9 +44,9 @@ func GetArchmages(leaderboard string, c cache.Cache) error {
 		return errors.New(err.Error())
 	}
 
-	// create a physical copy of the cache
 	// NOTE: this is for debugging and will
 	// probably not be kept
+	// create a physical copy of the cache
 	file, err := os.Create("./archmages.json")
 	if err != nil {
 		return errors.New(err.Error())
