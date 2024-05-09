@@ -3,33 +3,20 @@ package main
 import (
 	"log"
 	"os"
-	"time"
 
-	bd "github.com/ellielle/bootdev-stats/internal/bootdevapi"
-	"github.com/ellielle/bootdev-stats/internal/cache"
+	tea "github.com/charmbracelet/bubbletea"
 )
 
-type Client struct {
-	cache cache.Cache
-}
-
 func main() {
-	// get the page to crawl from site variable "SITE"
-	site := os.Getenv("SITE")
-	c := Client{
-		cache: cache.NewCache(60 * time.Second),
-	}
+	// NOTE: client may be rewritten as TUI is implemented
+	// TODO: GetArchmages
 
-	// if the ENV variable "SITE" doesn't have a valid option,
-	// terminate the program
-	URL, err := bd.BootDevAPIMap(site)
-	if err != nil {
-		log.Fatalf("invalid api option\nvalid options: archmage | stats | daily | karma\n")
+	// create a new Bubble Tea program
+	// exit the program with a non-zero exit code
+	// if something is amiss
+	p := tea.NewProgram(initialModel())
+	if _, err := p.Run(); err != nil {
+		log.Printf("uh oh, it broke! %v", err.Error())
+		os.Exit(1)
 	}
-
-	err = bd.GetArchmages(URL, c.cache)
-	if err != nil {
-		log.Fatalf(err.Error())
-	}
-
 }
