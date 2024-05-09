@@ -27,5 +27,9 @@ func main() {
 		log.Fatalf("invalid api option\nvalid options: archmage | stats | daily | karma\n")
 	}
 
-	bd.GetArchmages(URL, c.cache)
+	err = bd.GetArchmages(URL, c.cache)
+	if err != nil {
+		log.Fatalf(err.Error())
+	}
+
 }

@@ -25,7 +25,10 @@ func GetArchmages(leaderboard string, c cache.Cache) error {
 	// Check cache for a hit before requesting
 	cacheHit, ok := c.Get(leaderboard)
 	if ok {
-		json.Unmarshal(cacheHit, &archmages)
+		err := json.Unmarshal(cacheHit, &archmages)
+		if err != nil {
+			return errors.New("Error unmarshaling cache")
+		}
 		// TODO: wait for TUI
 		return nil
 	}
@@ -58,8 +61,14 @@ func GetArchmages(leaderboard string, c cache.Cache) error {
 		return errors.New(err.Error())
 	}
 
-	file.Write(mages)
+	_, err = file.Write(mages)
+	if err != nil {
+		return errors.New(err.Error())
+	}
 
-	file.Sync()
+	err = file.Sync()
+	if err != nil {
+		return errors.New(err.Error())
+	}
 	return nil
 }
