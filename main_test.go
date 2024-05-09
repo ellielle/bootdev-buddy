@@ -4,6 +4,8 @@ import (
 	"testing"
 
 	"github.com/google/go-cmp/cmp"
+
+	bd "github.com/ellielle/bootdev-stats/internal/bootdevapi"
 )
 
 func TestMain(t *testing.T) {
@@ -21,7 +23,7 @@ func TestMain(t *testing.T) {
 	// and that the function works itself
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got, _ := bootDevAPI(tc.input)
+			got, _ := bd.BootDevAPIMap(tc.input)
 			diff := cmp.Diff(tc.want, got)
 			if diff != "" {
 				t.Fatalf(diff)
