@@ -1,17 +1,36 @@
 package main
 
 import (
-	"log"
+	"embed"
 
-	tea "github.com/charmbracelet/bubbletea"
+	"github.com/wailsapp/wails/v2"
+	"github.com/wailsapp/wails/v2/pkg/options"
+	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
 )
 
+//go:embed all:frontend/dist
+var assets embed.FS
+
 func main() {
-	// create a new Bubble Tea program
-	// exit the program with a non-zero exit code
-	// if something is amiss
-	p := tea.NewProgram(initialModel())
-	if _, err := p.Run(); err != nil {
-		log.Fatalf("uh oh, it broke! %v", err.Error())
+	// Create an instance of the app structure
+	app := NewApp()
+
+	// Create application with options
+	err := wails.Run(&options.App{
+		Title:  "bds",
+		Width:  1024,
+		Height: 768,
+		AssetServer: &assetserver.Options{
+			Assets: assets,
+		},
+		BackgroundColour: &options.RGBA{R: 27, G: 38, B: 54, A: 1},
+		OnStartup:        app.startup,
+		Bind: []interface{}{
+			app,
+		},
+	})
+
+	if err != nil {
+		println("Error:", err.Error())
 	}
 }
