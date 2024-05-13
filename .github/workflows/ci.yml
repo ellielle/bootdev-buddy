@@ -46,5 +46,8 @@ jobs:
       - name: Go format
         run: test -z $(go fmt ./...)
 
+      - name: Format Go imports
+        run: test -z $(goimports-revisor ./... -test-diff)
+
       - name: Run staticcheck
         run: staticcheck ./...
