@@ -6,15 +6,18 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ellielle/bootdev-stats/internal/cache"
+	"github.com/ellielle/bootdev-buddy/internal/cache"
 )
 
-func GetArchmages(leaderboard string, c cache.Cache) error {
+// Archmage leaderboard URL
+const archmageLB = "https://api.boot.dev/v1/leaderboard_archmage"
+
+func GetArchmages(c cache.Cache) ([]Archmage, error) {
 
 	// Create a new request to https://api.boot.dev/v1/leaderboard_archmage
-	req, err := http.NewRequest("GET", leaderboard, nil)
+	req, err := http.NewRequest("GET", archmageLB, nil)
 	if err != nil {
-		return errors.New(err.Error())
+		return []Archmage{}, errors.New(err.Error())
 	}
 
 	// Declare `archmages` ahead of time. `archmages`
@@ -23,20 +26,20 @@ func GetArchmages(leaderboard string, c cache.Cache) error {
 	var archmages = []Archmage{}
 
 	// Check cache for a hit before requesting
-	cacheHit, ok := c.Get(leaderboard)
+	cacheHit, ok := c.Get(archmageLB)
 	if ok {
 		err := json.Unmarshal(cacheHit, &archmages)
 		if err != nil {
-			return errors.New("error unmarshaling cache")
+			return []Archmage{}, errors.New("error unmarshaling cache")
 		}
-		// TODO: wait for TUI
-		return nil
+		// return cache hit and exit early
+		return archmages, nil
 	}
 
 	// Send that request out!
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return errors.New(err.Error())
+		return []Archmage{}, errors.New(err.Error())
 	}
 
 	// If the request succeeds, we'll marshal
@@ -44,7 +47,7 @@ func GetArchmages(leaderboard string, c cache.Cache) error {
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&archmages)
 	if err != nil {
-		return errors.New(err.Error())
+		return []Archmage{}, errors.New(err.Error())
 	}
 
 	// NOTE: this is for debugging and will
@@ -52,23 +55,23 @@ func GetArchmages(leaderboard string, c cache.Cache) error {
 	// create a physical copy of the cache
 	file, err := os.Create("./archmages.json")
 	if err != nil {
-		return errors.New(err.Error())
+		return []Archmage{}, errors.New(err.Error())
 	}
 	defer file.Close()
 
 	mages, err := json.Marshal(archmages)
 	if err != nil {
-		return errors.New(err.Error())
+		return []Archmage{}, errors.New(err.Error())
 	}
 
 	_, err = file.Write(mages)
 	if err != nil {
-		return errors.New(err.Error())
+		return []Archmage{}, errors.New(err.Error())
 	}
 
 	err = file.Sync()
 	if err != nil {
-		return errors.New(err.Error())
+		return []Archmage{}, errors.New(err.Error())
 	}
-	return nil
+	return archmages, nil
 }
