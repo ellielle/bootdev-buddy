@@ -22,17 +22,17 @@ func TestAddGet(t *testing.T) {
 		},
 	}
 
-	for i, c := range cases {
+	for i, tc := range cases {
 		t.Run(fmt.Sprintf("Test case %v", i), func(t *testing.T) {
 			cache := NewCache(interval)
-			cache.Add(c.key, &c.want)
-			val, ok := cache.Get(c.key)
+			cache.Add(tc.key, &tc.want)
+			val, ok := cache.Get(tc.key)
 			if !ok {
-				t.Errorf("expected to find key")
+				t.Fatalf("expected to find key")
 				return
 			}
-			if string(val) != string(c.want) {
-				t.Errorf("expected to find value")
+			if string(val) != string(tc.want) {
+				t.Fatalf("expected to find value")
 				return
 			}
 		})
@@ -40,23 +40,36 @@ func TestAddGet(t *testing.T) {
 }
 
 func TestReapLoop(t *testing.T) {
-	const baseTime = 5 * time.Millisecond
-	const waitTime = baseTime + 5*time.Millisecond
-	cache := NewCache(baseTime)
-	testData := []byte("testdata")
-	cache.Add("https://api.boot.dev/", &testData)
+	const interval = 5 * time.Millisecond
+	const waitTime = interval + 5*time.Millisecond
 
-	_, ok := cache.Get("https://api.boot.dev/")
-	if !ok {
-		t.Errorf("expected to find key")
-		return
+	cases := []struct {
+		key  string
+		want []byte
+	}{
+		{
+			key: "https://api.boot.dev/",
+		},
 	}
 
-	time.Sleep(waitTime)
+	for i, tc := range cases {
+		t.Run(fmt.Sprintf("Test case %v", i), func(t *testing.T) {
+			cache := NewCache(interval)
+			testData := []byte("testdata")
+			cache.Add(tc.key, &testData)
 
-	_, ok = cache.Get("https://api.boot.dev/")
-	if ok {
-		t.Errorf("expected to not find key")
-		return
+			_, ok := cache.Get("https://api.boot.dev/")
+			if !ok {
+				t.Fatalf("expected to find key")
+				return
+			}
+			time.Sleep(waitTime)
+
+			_, ok = cache.Get("https://api.boot.dev/")
+			if ok {
+				t.Fatalf("expected to not find key")
+				return
+			}
+		})
 	}
 }

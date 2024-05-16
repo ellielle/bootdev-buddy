@@ -1,30 +1,31 @@
 package bootdevapi
 
 import (
-	"strings"
 	"testing"
-	"time"
 
 	"github.com/google/go-cmp/cmp"
-
-	"github.com/ellielle/bootdev-stats/internal/cache"
 )
 
-func TestArchmageAPI(t *testing.T) {
+// TODO: add more tests as API develops
+
+// Tests that the proper url is returned
+// and that the function works itself
+func TestMain(t *testing.T) {
 	tests := map[string]struct {
 		input string
-		want  func()
+		want  string
 	}{
-		"GetArchmages": {input: "archmage", want: nil},
+		"archmage": {input: "archmage", want: "https://api.boot.dev/v1/leaderboard_archmage"},
+		"stats":    {input: "stats", want: "https://api.boot.dev/v1/leaderboard_stats"},
+		"daily":    {input: "daily", want: "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"},
+		"karma":    {input: "karma", want: "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=30"},
 	}
-
-	c := cache.NewCache(60 * time.Second)
 
 	for name, tc := range tests {
 		t.Run(name, func(t *testing.T) {
-			got := GetArchmages("archmage", c)
+			got, _ := BootDevAPIMap(tc.input)
 			diff := cmp.Diff(tc.want, got)
-			if strings.Contains(diff, "usupported protocol scheme") {
+			if diff != "" {
 				t.Fatalf(diff)
 			}
 		})
