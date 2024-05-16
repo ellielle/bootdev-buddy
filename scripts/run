@@ -1,2 +1,2 @@
 #!/bin/zsh
-go build -o bootdevstats && ./bootdevstats
+go build -o bootdevbuddy && ./bootdevbuddy
