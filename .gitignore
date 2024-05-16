@@ -6,7 +6,6 @@ karma.json
 
 # wails files
 build/bin
-frontend/dist
 frontend/wailsjs*
 .syso
 
