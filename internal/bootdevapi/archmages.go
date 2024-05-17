@@ -28,9 +28,9 @@ func GetArchmages(c cache.Cache) ([]Archmage, error) {
 	// Check cache for a hit before requesting
 	cacheHit, ok := c.Get(archmageLB)
 	if ok {
-		err := json.Unmarshal(cacheHit, &archmages)
+		err := json.Unmarshal([]byte(cacheHit), &archmages)
 		if err != nil {
-			return []Archmage{}, errors.New("error unmarshaling cache")
+			return []Archmage{}, err
 		}
 		// return cache hit and exit early
 		return archmages, nil
@@ -41,8 +41,9 @@ func GetArchmages(c cache.Cache) ([]Archmage, error) {
 	if err != nil {
 		return []Archmage{}, errors.New(err.Error())
 	}
+	defer resp.Body.Close()
 
-	// If the request succeeds, we'll marshal
+	// If the request succeeds, we'll decode
 	// the JSON response into `archmages`
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&archmages)
@@ -58,11 +59,17 @@ func GetArchmages(c cache.Cache) ([]Archmage, error) {
 		return []Archmage{}, errors.New(err.Error())
 	}
 	defer file.Close()
+	// NOTE:
 
 	mages, err := json.Marshal(archmages)
 	if err != nil {
 		return []Archmage{}, errors.New(err.Error())
 	}
+
+	// Write the url and data to the cache so it can be
+	// checked before subsuquent requests within the
+	// interval period
+	c.Add(archmageLB, &mages)
 
 	_, err = file.Write(mages)
 	if err != nil {

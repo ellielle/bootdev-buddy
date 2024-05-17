@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"time"
 
 	"github.com/ellielle/bootdev-buddy/internal/bootdevapi"
 	"github.com/ellielle/bootdev-buddy/internal/cache"
@@ -16,7 +17,6 @@ type App struct {
 
 // NewApp creates a new App application struct
 func NewApp() *App {
-	cache.NewCache(5)
 	return &App{}
 }
 
@@ -24,6 +24,7 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
+	a.cache = cache.NewCache(5 * time.Minute)
 }
 
 // Get the list of current Archmages
