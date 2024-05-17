@@ -1,5 +1,17 @@
-bootdevstats
+bootdevbuddy
 archmages.json
 stats.json
 daily.json
 karma.json
+
+# wails files
+build/bin
+frontend/dist
+frontend/wailsjs*
+.syso
+
+node_modules
+
+# go files
+go.sum
+
