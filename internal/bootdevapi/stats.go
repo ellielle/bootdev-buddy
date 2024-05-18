@@ -9,12 +9,12 @@ import (
 	"github.com/ellielle/bootdev-buddy/internal/cache"
 )
 
-func GetArchmages(c cache.Cache) ([]Archmage, error) {
-	// Archmage leaderboard URL
-	const archmageLB = "https://api.boot.dev/v1/leaderboard_archmage"
+func GetGeneralStats(c cache.Cache) {
+	// Regular leaderboard stats URL
+	const statsLB = "https://api.boot.dev/v1/leaderboard_stats"
 
 	// Create a new request to https://api.boot.dev/v1/leaderboard_archmage
-	req, err := http.NewRequest("GET", archmageLB, nil)
+	req, err := http.NewRequest("GET", statsLB, nil)
 	if err != nil {
 		return []Archmage{}, errors.New(err.Error())
 	}
@@ -25,7 +25,7 @@ func GetArchmages(c cache.Cache) ([]Archmage, error) {
 	var archmages = []Archmage{}
 
 	// Check cache for a hit before requesting
-	cacheHit, ok := c.Get(archmageLB)
+	cacheHit, ok := c.Get(statsLB)
 	if ok {
 		err := json.Unmarshal([]byte(cacheHit), &archmages)
 		if err != nil {
@@ -67,7 +67,7 @@ func GetArchmages(c cache.Cache) ([]Archmage, error) {
 	// Write the url and data to the cache so it can be
 	// checked before subsuquent requests within the
 	// interval period
-	c.Add(archmageLB, &mages)
+	c.Add(statsLb, &mages)
 
 	_, err = file.Write(mages)
 	if err != nil {
