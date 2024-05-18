@@ -44,3 +44,12 @@ type Archmage struct {
 	IsRecruiter             any       `json:"IsRecruiter"`
 	ArchmageUnlockedAt      time.Time `json:"ArchmageUnlockedAt"`
 }
+
+type GlobalStats struct {
+	LessonCompletions      int `json:"LessonCompletions"`
+	XPEarned               int `json:"XPEarned"`
+	BootsChats             int `json:"BootsChats"`
+	SolutionsPeeked        int `json:"SolutionsPeeked"`
+	DiscordMessagesSent    int `json:"DiscordMessagesSent"`
+	RegisteredUsersAlltime int `json:"RegisteredUsersAlltime"`
+}
