@@ -9,11 +9,14 @@ import (
 	"github.com/ellielle/bootdev-buddy/internal/cache"
 )
 
+// GetArchmages returns a slice of all current Archmages on
+// Boot.Dev. It first tries to find a list in the cache, and
+// if it doesn't exist or has expired, sends a request for it
 func GetArchmages(c cache.Cache) ([]Archmage, error) {
 	// Archmage leaderboard URL
 	const archmageLB = "https://api.boot.dev/v1/leaderboard_archmage"
 
-	// Create a new request to https://api.boot.dev/v1/leaderboard_archmage
+	// Create a new request
 	req, err := http.NewRequest("GET", archmageLB, nil)
 	if err != nil {
 		return []Archmage{}, errors.New(err.Error())
@@ -59,6 +62,7 @@ func GetArchmages(c cache.Cache) ([]Archmage, error) {
 	}
 	defer file.Close()
 
+	// Marshal the data into JSON to be written to cache
 	mages, err := json.Marshal(archmages)
 	if err != nil {
 		return []Archmage{}, errors.New(err.Error())

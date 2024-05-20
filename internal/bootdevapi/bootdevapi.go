@@ -14,6 +14,7 @@ func BootDevAPIMap(URL string) (string, error) {
 	api["stats"] = "https://api.boot.dev/v1/leaderboard_stats"
 	api["daily"] = "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"
 	api["karma"] = "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=30"
+	api["feed"] = "https://api.boot.dev/v1/lesson_completion_feed"
 	if _, ok := api[URL]; !ok {
 		return "", errors.New("invalid api")
 
