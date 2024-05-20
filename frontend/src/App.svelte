@@ -1,26 +1,95 @@
 <script>
-  import { GetArchmagesList } from "../wailsjs/go/main/App.js";
+  import {
+    ArchmagesList,
+    GlobalStats,
+    TopDailyLearners,
+    TopCommunity,
+  } from "../wailsjs/go/main/App.js";
 
+  // Holds all Archmages and their publicly available data
   let archmages = [];
-  let isArchmage = false;
+  // Holds the top 30 discord karma leaderboard users
+  let archsages = [];
+  // Holds the top 30 leaderboard users
+  let leaders = [];
 
+  // Holds the general global leaderboard stats
+  let stats = {};
+  // is the current user an Archmage? Use for a few features
+  // such as name highlighting
+
+  let isArchmage = false;
+  // Because separating the keys with regex is worse
+  const generalStats = {
+    LessonCompletions: "Lessons Completed",
+    XPEarned: "XP Earned",
+    BootsChats: "Chats with Boots",
+    SolutionsPeeked: "Solutions Peeked",
+    DiscordMessagesSent: "Discord Messages",
+    RegisteredUsersAlltime: "Registered Users",
+  };
+
+  // getArchmages returns an Array of the most recent 10 Archmages
   function getArchmages() {
-    archmages = [];
-    GetArchmagesList().then((result) => (archmages = result.slice(0, 10)));
+    ArchmagesList().then((result) => (archmages = result.slice(0, 10)));
+  }
+
+  // getStats returns the current global leaderboard stats
+  // The stats are shaped like [name,value]
+  function getGlobalStats() {
+    GlobalStats().then((result) => (stats = result));
+  }
+
+  function getTopLearners() {
+    TopDailyLearners().then((result) => (leaders = result.slice(0, 10)));
+  }
+
+  function getTopCommunity() {
+    TopCommunity().then((result) => (archsages = result.slice(0, 10)));
   }
 </script>
 
 <main>
-  <div class="result" id="result"></div>
-  <div>
-    <button class="btn" on:click={getArchmages}>Get Last 5 Archmages</button>
-  </div>
-  <div>
-    {#each archmages as mage}
-      <div>
-        {mage?.Handle || "hi"}
-      </div>
-    {/each}
+  <div class="menu-container">
+    <div class="result" id="result"></div>
+    <div>
+      <button class="btn" on:click={getArchmages}>Get Last 5 Archmages</button>
+    </div>
+    <div>
+      {#each archmages as mage}
+        <div>
+          {mage?.Handle}
+        </div>
+      {/each}
+    </div>
+    <div>
+      <button class="btn" on:click={getGlobalStats}>Show Stats!</button>
+    </div>
+    <div>
+      {#each Object.entries(stats) as stat}
+        <div>
+          {generalStats[stat[0]] + ": " + stat[1]}
+        </div>
+      {/each}
+    </div>
+    <button class="btn" on:click={getTopLearners}>Show Learning Leaders!</button
+    >
+    <div>
+      {#each leaders as lead}
+        <div>
+          {lead?.Handle}
+        </div>
+      {/each}
+    </div>
+    <button class="btn" on:click={getTopCommunity}>Show Discord Leaders!</button
+    >
+    <div>
+      {#each archsages as sage}
+        <div>
+          {sage?.Handle}
+        </div>
+      {/each}
+    </div>
   </div>
 </main>
 

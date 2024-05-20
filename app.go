@@ -28,7 +28,7 @@ func (a *App) startup(ctx context.Context) {
 }
 
 // GetArchmagesList returns the data from the archmage leaderboard
-func (a *App) GetArchmagesList() []bootdevapi.Archmage {
+func (a *App) ArchmagesList() []bootdevapi.Archmage {
 	list, err := bootdevapi.GetArchmages(a.cache)
 	if err != nil {
 		log.Fatal(err)
@@ -37,12 +37,30 @@ func (a *App) GetArchmagesList() []bootdevapi.Archmage {
 	return list
 }
 
-// GetStats returns the general global stats from the leaderboard
-func (a *App) GetStats() bootdevapi.GlobalStats {
+// GlobalStats returns the general global stats from the leaderboard
+func (a *App) GlobalStats() bootdevapi.GlobalStats {
 	stats, err := bootdevapi.GetGeneralStats(a.cache)
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	return stats
+}
+
+func (a *App) TopDailyLearners() []bootdevapi.LeaderboardUser {
+	list, err := bootdevapi.GetDailyStats(a.cache)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return list
+}
+
+func (a *App) TopCommunity() []bootdevapi.Archsage {
+	list, err := bootdevapi.GetDiscordLeaderboard(a.cache)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return list
 }
