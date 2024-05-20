@@ -26,6 +26,8 @@ func main() {
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
+		// translucency is also controlled by the background in
+		// the app's main style.css file
 		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 100},
 		OnStartup:        app.startup,
 		Bind: []interface{}{

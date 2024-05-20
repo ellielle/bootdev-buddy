@@ -27,7 +27,7 @@ func (a *App) startup(ctx context.Context) {
 	a.cache = cache.NewCache(5 * time.Minute)
 }
 
-// Get the list of current Archmages
+// GetArchmagesList returns the data from the archmage leaderboard
 func (a *App) GetArchmagesList() []bootdevapi.Archmage {
 	list, err := bootdevapi.GetArchmages(a.cache)
 	if err != nil {
@@ -35,4 +35,14 @@ func (a *App) GetArchmagesList() []bootdevapi.Archmage {
 	}
 
 	return list
+}
+
+// GetStats returns the general global stats from the leaderboard
+func (a *App) GetStats() bootdevapi.GlobalStats {
+	stats, err := bootdevapi.GetGeneralStats(a.cache)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return stats
 }
