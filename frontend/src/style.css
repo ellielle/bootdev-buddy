@@ -1,5 +1,6 @@
 html {
-    background-color: rgba(27, 38, 54, 0.1);
+    /* Change background-color when in dev mode to make it more visible */
+    background-color: rgba(27, 38, 54, 1);
     color: white;
 }
 
@@ -21,10 +22,5 @@ body {
 
 #app {
     height: 100vh;
-    text-align: center;
-}
-
-.menu-container {
-    display: grid;
-    grid-auto-flow: column;
+    margin: 2em 0 0 1em;
 }
