@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"os"
 
 	"github.com/ellielle/bootdev-buddy/internal/cache"
 )
@@ -53,15 +52,6 @@ func GetArchmages(c cache.Cache) ([]Archmage, error) {
 		return []Archmage{}, errors.New(err.Error())
 	}
 
-	// NOTE: this is for debugging and will
-	// probably not be kept
-	// create a physical copy of the cache
-	file, err := os.Create("./archmages.json")
-	if err != nil {
-		return []Archmage{}, errors.New(err.Error())
-	}
-	defer file.Close()
-
 	// Marshal the data into JSON to be written to cache
 	mages, err := json.Marshal(archmages)
 	if err != nil {
@@ -73,14 +63,5 @@ func GetArchmages(c cache.Cache) ([]Archmage, error) {
 	// interval period
 	c.Add(archmageLB, &mages)
 
-	_, err = file.Write(mages)
-	if err != nil {
-		return []Archmage{}, errors.New(err.Error())
-	}
-
-	err = file.Sync()
-	if err != nil {
-		return []Archmage{}, errors.New(err.Error())
-	}
 	return archmages, nil
 }

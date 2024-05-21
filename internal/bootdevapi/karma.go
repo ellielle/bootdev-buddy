@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"os"
 
 	"github.com/ellielle/bootdev-buddy/internal/cache"
 )
@@ -51,15 +50,6 @@ func GetDiscordLeaderboard(c cache.Cache) ([]Archsage, error) {
 		return []Archsage{}, errors.New(err.Error())
 	}
 
-	// NOTE: this is for debugging and will
-	// probably not be kept
-	// create a physical copy of the cache
-	file, err := os.Create("./archsages.json")
-	if err != nil {
-		return []Archsage{}, errors.New(err.Error())
-	}
-	defer file.Close()
-
 	sages, err := json.Marshal(archsages)
 	if err != nil {
 		return []Archsage{}, errors.New(err.Error())
@@ -70,14 +60,5 @@ func GetDiscordLeaderboard(c cache.Cache) ([]Archsage, error) {
 	// interval period
 	c.Add(communityLB, &sages)
 
-	_, err = file.Write(sages)
-	if err != nil {
-		return []Archsage{}, errors.New(err.Error())
-	}
-
-	err = file.Sync()
-	if err != nil {
-		return []Archsage{}, errors.New(err.Error())
-	}
 	return archsages, nil
 }

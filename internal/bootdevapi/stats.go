@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"os"
 
 	"github.com/ellielle/bootdev-buddy/internal/cache"
 )
@@ -50,15 +49,6 @@ func GetGeneralStats(c cache.Cache) (GlobalStats, error) {
 		return GlobalStats{}, errors.New(err.Error())
 	}
 
-	// NOTE: this is for debugging and will
-	// probably not be kept
-	// create a physical copy of the cache
-	file, err := os.Create("./stats.json")
-	if err != nil {
-		return GlobalStats{}, errors.New(err.Error())
-	}
-	defer file.Close()
-
 	statsJSON, err := json.Marshal(globalStats)
 	if err != nil {
 		return GlobalStats{}, errors.New(err.Error())
@@ -69,14 +59,5 @@ func GetGeneralStats(c cache.Cache) (GlobalStats, error) {
 	// interval period
 	c.Add(statsLB, &statsJSON)
 
-	_, err = file.Write(statsJSON)
-	if err != nil {
-		return GlobalStats{}, errors.New(err.Error())
-	}
-
-	err = file.Sync()
-	if err != nil {
-		return GlobalStats{}, errors.New(err.Error())
-	}
 	return globalStats, nil
 }

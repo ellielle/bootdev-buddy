@@ -26,7 +26,7 @@
   // Information about the user
 
   let isArchmage = false;
-  let isSignedIn = false;
+  let isLoggedIn;
 
   // Because separating the keys with regex is worse
   const generalStats = {
@@ -59,14 +59,14 @@
 
   function loginUser() {
     console.log(otpField);
-    LoginUser(otpField).then((result) => console.log(result));
+    LoginUser(otpField).then((result) => (isLoggedIn = result));
   }
 </script>
 
 <main>
   <div class="container-buddy">
     <div class="menu-container">
-      {#if !isSignedIn}
+      {#if !isLoggedIn}
         <div class="menu-item btn-login">
           <div>
             You aren't currently logged in! You will only have limited
