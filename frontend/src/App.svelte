@@ -19,6 +19,7 @@
   // such as name highlighting
 
   let isArchmage = false;
+
   // Because separating the keys with regex is worse
   const generalStats = {
     LessonCompletions: "Lessons Completed",
@@ -51,39 +52,37 @@
 
 <main>
   <div class="menu-container">
-    <div class="result" id="result"></div>
-    <div>
-      <button class="btn" on:click={getArchmages}>Get Last 5 Archmages</button>
-    </div>
-    <div>
+    <div class="menu-item">
+      <button class="btn" on:click={getArchmages}>Get Last 10 Archmages</button>
       {#each archmages as mage}
         <div>
           {mage?.Handle}
         </div>
       {/each}
     </div>
-    <div>
+    <div class="menu-item">
       <button class="btn" on:click={getGlobalStats}>Show Stats!</button>
-    </div>
-    <div>
       {#each Object.entries(stats) as stat}
         <div>
           {generalStats[stat[0]] + ": " + stat[1]}
         </div>
       {/each}
     </div>
-    <button class="btn" on:click={getTopLearners}>Show Learning Leaders!</button
-    >
-    <div>
+    <div class="menu-item">
+      <button class="btn" on:click={getTopLearners}
+        >Show Learning Leaders!</button
+      >
       {#each leaders as lead}
         <div>
           {lead?.Handle}
         </div>
       {/each}
     </div>
-    <button class="btn" on:click={getTopCommunity}>Show Discord Leaders!</button
-    >
-    <div>
+
+    <div class="menu-item">
+      <button class="btn" on:click={getTopCommunity}
+        >Show Discord Leaders!</button
+      >
       {#each archsages as sage}
         <div>
           {sage?.Handle}
