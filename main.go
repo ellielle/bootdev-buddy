@@ -21,7 +21,7 @@ func main() {
 		Title:       "Boot.dev Buddy",
 		Width:       1024,
 		Height:      768,
-		StartHidden: false,
+		StartHidden: true,
 		// Set to true to remove border
 		Frameless: false,
 		AssetServer: &assetserver.Options{
