@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-	"os"
 
 	"github.com/ellielle/bootdev-buddy/internal/cache"
 )
@@ -57,15 +56,6 @@ func GetDailyStats(c cache.Cache) ([]LeaderboardUser, error) {
 		return []LeaderboardUser{}, errors.New(err.Error())
 	}
 
-	// NOTE: this is for debugging and will
-	// probably not be kept
-	// create a physical copy of the cache
-	file, err := os.Create("./daily.json")
-	if err != nil {
-		return []LeaderboardUser{}, errors.New(err.Error())
-	}
-	defer file.Close()
-
 	mages, err := json.Marshal(dailyStats)
 	if err != nil {
 		return []LeaderboardUser{}, errors.New(err.Error())
@@ -76,14 +66,5 @@ func GetDailyStats(c cache.Cache) ([]LeaderboardUser, error) {
 	// interval period
 	c.Add(dailyStatsLB, &mages)
 
-	_, err = file.Write(mages)
-	if err != nil {
-		return []LeaderboardUser{}, errors.New(err.Error())
-	}
-
-	err = file.Sync()
-	if err != nil {
-		return []LeaderboardUser{}, errors.New(err.Error())
-	}
 	return dailyStats, nil
 }

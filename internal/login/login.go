@@ -48,5 +48,11 @@ func ExchangeOTPForToken(OTP string) (string, error) {
 		return "", err
 	}
 
-	return string(token), nil
+	loginResp := loginResponse{}
+	err = json.Unmarshal(token, &loginResp)
+	if err != nil {
+		return "", err
+	}
+
+	return loginResp.AccessToken, nil
 }

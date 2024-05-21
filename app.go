@@ -2,17 +2,20 @@ package main
 
 import (
 	"context"
+	"errors"
 	"log"
 	"time"
 
 	"github.com/ellielle/bootdev-buddy/internal/bootdevapi"
 	"github.com/ellielle/bootdev-buddy/internal/cache"
+	"github.com/ellielle/bootdev-buddy/internal/login"
 )
 
 // App struct
 type App struct {
 	ctx   context.Context
 	cache cache.Cache
+	token string
 }
 
 // NewApp creates a new App application struct
@@ -47,6 +50,7 @@ func (a *App) GlobalStats() bootdevapi.GlobalStats {
 	return stats
 }
 
+// TopDailyLearners returns the top 30 users based on exp earned
 func (a *App) TopDailyLearners() []bootdevapi.LeaderboardUser {
 	list, err := bootdevapi.GetDailyStats(a.cache)
 	if err != nil {
@@ -56,6 +60,8 @@ func (a *App) TopDailyLearners() []bootdevapi.LeaderboardUser {
 	return list
 }
 
+// TopCommunity returns the top 30 members of the discord community,
+// based on a variety of factors such as activity
 func (a *App) TopCommunity() []bootdevapi.Archsage {
 	list, err := bootdevapi.GetDiscordLeaderboard(a.cache)
 	if err != nil {
@@ -63,4 +69,20 @@ func (a *App) TopCommunity() []bootdevapi.Archsage {
 	}
 
 	return list
+}
+
+func (a *App) LoginUser(OTP string) (bool, error) {
+	token, err := login.ExchangeOTPForToken(OTP)
+	if err != nil {
+		return false, errors.New("error exchanging OTP for Token")
+	}
+	if token == "" {
+		return false, errors.New("empty token after exchanging with OTP")
+	}
+
+	// set token in App struct so it can be used for
+	// user-specific queries
+	a.token = token
+
+	return true, nil
 }
