@@ -84,7 +84,6 @@ func (a *App) LoginUser(OTP string) (bool, error) {
 	// set token in App struct so it can be used for
 	// user-specific queries
 	a.token = token.AccessToken
-	writeToken(token.AccessToken)
 
 	return true, nil
 }
@@ -94,59 +93,4 @@ func (a *App) UserData() {
 		return
 	}
 
-}
-
-// TODO: check token validity
-// writeToken writes the access_token and
-// refresh_token to a local file.
-// access_token is only valid for 1 hour
-func writeToken(token string) error {
-	_, err := os.Stat(".bootdevbuddy.json")
-	var file *os.File
-
-	if os.IsNotExist(err) {
-		file, err = os.Create(".bootdevbuddy.json")
-		if err != nil {
-			return err
-		}
-	} else {
-		file, err = os.Open(".bootdevbuddy.json")
-		if err != nil {
-			return err
-		}
-	}
-	defer file.Close()
-
-	file.WriteString(token)
-
-	return nil
-}
-
-// TODO: check token validity
-// readToken reads the user's access_token and
-// refresh_token from the local file. Token will
-// fail if stale and will need to be refreshed
-func readToken() (string, error) {
-	_, err := os.Stat(".bootdevbuddy.json")
-	var file *os.File
-
-	if os.IsNotExist(err) {
-		file, err = os.Create(".bootdevbuddy.json")
-		if err != nil {
-			return "", err
-		}
-	} else {
-		file, err = os.Open(".bootdevbuddy.json")
-		if err != nil {
-			return "", err
-		}
-	}
-	defer file.Close()
-
-	token, err := os.ReadFile(".bootdevbuddy.json")
-	if err != nil {
-		return "", err
-	}
-
-	return string(token), nil
 }
