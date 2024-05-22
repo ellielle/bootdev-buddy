@@ -8,14 +8,26 @@ Note: This project isn't affiliated with Boot.dev in any way. I'm just a student
 
 Boot.dev uses a one-time password system for logging in via it's CLI. Using this same OTP, BDB can authenticate the user and retrieve their Boot.dev data.
 
-Note: The JWT they use expires after an hour. Currently that will require obtaining another OTP.
+> Currently logging into the app is session-based. You'll need another OTP each time you open it.
 
 ## Live Development
 
-To run in live development mode, run `wails dev` in the project directory. This will run a Vite development
-server that will provide very fast hot reload of your frontend changes. If you want to develop in a browser
-and have access to your Go methods, there is also a dev server that runs on http://localhost:34115. Connect
-to this in your browser, and you can call your Go code from devtools.
+If you want to use dev mode in the browser and not with a GUI app, set `StartHidden` to `true` in `main.go`.
+
+```go
+func main() {
+	app := NewApp()
+	err := wails.Run(&options.App{
+        ...
+		StartHidden: true,  // Me
+        ...
+    }
+}
+```
+
+1. Run `wails dev` to start up the dev server. This will build your Go backend and Svelte frontend, and start a server at `http://localhost:34115`
+
+2. `app.go` contains App methods that will be callable in the Svelte app. Outside of that, the separation is pretty apparent.
 
 ## Building
 
