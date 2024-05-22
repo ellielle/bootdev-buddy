@@ -4,7 +4,6 @@ import (
 	"context"
 	"errors"
 	"log"
-	"os"
 	"time"
 
 	"github.com/ellielle/bootdev-buddy/internal/bootdevapi"

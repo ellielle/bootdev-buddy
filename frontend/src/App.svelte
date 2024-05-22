@@ -49,16 +49,21 @@
     GlobalStats().then((result) => (stats = result));
   }
 
+  // getTopLearners returns the 30 highest XP earners in the last
+  // 24 hour period, sliced down to 10 to fit
   function getTopLearners() {
     TopDailyLearners().then((result) => (leaders = result.slice(0, 10)));
   }
 
+  // getTopCommunity returns the top 30 users with the highest karma,
+  // a stat earned by being active in the Discord channel
   function getTopCommunity() {
     TopCommunity().then((result) => (archsages = result.slice(0, 10)));
   }
 
+  // loginUser takes a user's OTP, trades it for an access token which
+  // is saved for futher use, and marks the user as logged in
   function loginUser() {
-    console.log(otpField);
     LoginUser(otpField).then((result) => (isLoggedIn = result));
   }
 </script>
@@ -81,7 +86,7 @@
             to login.
           </div>
           The login instructions can&nbsp;<a
-            href="https://github.com/ellielle/bootdev-buddy#Login"
+            href="https://github.com/ellielle/bootdev-buddy#logging-in"
             target="_blank"
           >
             be found here</a
