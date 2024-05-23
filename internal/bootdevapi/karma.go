@@ -9,7 +9,6 @@ import (
 )
 
 func GetDiscordLeaderboard(c cache.Cache) ([]Archon, error) {
-	//TODO:
 	// Community leaderboard URL
 	communityLB, err := BootDevAPIMap("karma")
 	if err != nil {
