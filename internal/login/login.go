@@ -5,16 +5,20 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
+	"log"
 	"net/http"
 	"os"
 )
 
-type BDTokens struct {
+type BDToken struct {
 	AccessToken  string `json:"access_token"`
 	RefreshToken string `json:"refresh_token"`
 }
 
-func ExchangeOTPForToken(OTP string) (*BDTokens, error) {
+func ExchangeOTPForToken(OTP string) (*BDToken, error) {
+	if OTP == "" {
+		return nil, errors.New("empty one-time password")
+	}
 	// Boot.Dev's one-time password login for their CLI app
 	// The token returned can be used to authenticate the user
 	// across their API
@@ -29,31 +33,31 @@ func ExchangeOTPForToken(OTP string) (*BDTokens, error) {
 	apiReq := apiRequest{Otp: OTP}
 	jsonData, err := json.Marshal(apiReq)
 	if err != nil {
-		return &BDTokens{}, err
+		return nil, err
 	}
 
 	// Create and carry out a new HTTP request to the API
 	req, err := http.NewRequest("POST", OTP_LOGIN, bytes.NewBuffer(jsonData))
 	if err != nil {
-		return &BDTokens{}, err
+		return nil, err
 	}
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return &BDTokens{}, err
+		return nil, err
 	}
 	defer resp.Body.Close()
 
 	token, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return &BDTokens{}, err
+		return nil, err
 	}
 
-	loginResp := BDTokens{}
+	loginResp := BDToken{}
 	err = json.Unmarshal(token, &loginResp)
 	if err != nil {
-		return &BDTokens{}, err
+		return nil, err
 	}
 
 	// save the keys locally, so the user doesn't
@@ -63,9 +67,61 @@ func ExchangeOTPForToken(OTP string) (*BDTokens, error) {
 	return &loginResp, nil
 }
 
+// RefreshToken can be called to get the refresh_token
+// from the local file, and use it to refresh the user's
+// access_token.
+func RefreshToken() (*BDToken, error) {
+	log.Print("refresh token called")
+	const REFRESH_URL = "https://api.boot.dev/v1/auth/refresh"
+	tokens, err := readKeys()
+	if err != nil {
+		return nil, err
+	}
+
+	// TODO:
+	tokenData, err := json.Marshal(tokens)
+	if err != nil {
+		return nil, err
+	}
+
+	var jsonData BDToken
+	json.Unmarshal(tokenData, &jsonData)
+
+	req, err := http.NewRequest("POST", REFRESH_URL, bytes.NewBuffer(tokenData))
+	if err != nil {
+		return nil, err
+	}
+	req.Header.Add("X-Refresh-Token", jsonData.RefreshToken)
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		return nil, errors.New("invalid refresh token")
+	}
+
+	token, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	var newTokens BDToken
+	err = json.Unmarshal(token, &newTokens)
+	if err != nil {
+		return nil, err
+	}
+
+	writeKeys(&newTokens)
+
+	return &newTokens, nil
+}
+
 // writeKeys takes the Boot.Dev access_token and
 // refresh_token and saves them locally.
-func writeKeys(tokens *BDTokens) error {
+func writeKeys(tokens *BDToken) error {
 	_, err := os.Stat(".bootdevbuddy.json")
 	var file *os.File
 
@@ -86,38 +142,45 @@ func writeKeys(tokens *BDTokens) error {
 	if err != nil {
 		return errors.New("error marshaling json")
 	}
+	log.Print("FILE WRITTEN")
 
-	file.Write(keys)
+	_, err = file.Write(keys)
+	if err != nil {
+		return errors.New("error writing key file")
+	}
 
 	return nil
 }
 
-func readKeys() (*BDTokens, error) {
+// readKeys reads .bootdevbuddy.json, unmarshals it
+// into a struct, and returns the access_token and
+// refresh_token
+func readKeys() (*BDToken, error) {
 	_, err := os.Stat(".bootdevbuddy.json")
 	var file *os.File
 
 	if os.IsNotExist(err) {
 		file, err = os.Create(".bootdevbuddy.json")
 		if err != nil {
-			return &BDTokens{}, errors.New("error creating key file")
+			return nil, errors.New("error creating key file")
 		}
 	} else {
 		file, err = os.Open(".bootdevbuddy.json")
 		if err != nil {
-			return &BDTokens{}, errors.New("error opening key file")
+			return nil, errors.New("error opening key file")
 		}
 	}
 	defer file.Close()
 
 	data, err := io.ReadAll(file)
 	if err != nil {
-		return &BDTokens{}, errors.New("error reading key file")
+		return nil, errors.New("error reading key file")
 	}
 
-	var keys BDTokens
+	var keys BDToken
 	err = json.Unmarshal(data, &keys)
 	if err != nil {
-		return &BDTokens{}, errors.New("error unmarshaling json")
+		return nil, errors.New("error unmarshaling json")
 	}
 
 	return &keys, nil
