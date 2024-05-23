@@ -6,6 +6,8 @@ import (
 	"log"
 	"time"
 
+	"github.com/wailsapp/wails/v2/pkg/runtime"
+
 	"github.com/ellielle/bootdev-buddy/internal/bootdevapi"
 	"github.com/ellielle/bootdev-buddy/internal/cache"
 	"github.com/ellielle/bootdev-buddy/internal/login"
@@ -13,9 +15,9 @@ import (
 
 // App struct
 type App struct {
-	ctx   context.Context
-	cache cache.Cache
-	token string
+	ctx    context.Context
+	cache  cache.Cache
+	tokens login.BDToken
 }
 
 // NewApp creates a new App application struct
@@ -28,11 +30,18 @@ func NewApp() *App {
 func (a *App) startup(ctx context.Context) {
 	a.ctx = ctx
 	a.cache = cache.NewCache(5 * time.Minute)
+	tokens, err := login.RefreshToken()
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	a.tokens = *tokens
+	runtime.EventsEmit(ctx, "domready")
 }
 
 // GetArchmagesList returns the data from the archmage leaderboard
 func (a *App) ArchmagesList() []bootdevapi.Archmage {
-	list, err := bootdevapi.GetArchmages(a.cache)
+	list, err := bootdevapi.Archmages(a.cache)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -62,7 +71,7 @@ func (a *App) TopDailyLearners() []bootdevapi.LeaderboardUser {
 
 // TopCommunity returns the top 30 members of the discord community,
 // based on a variety of factors such as activity
-func (a *App) TopCommunity() []bootdevapi.Archsage {
+func (a *App) TopCommunity() []bootdevapi.Archon {
 	list, err := bootdevapi.GetDiscordLeaderboard(a.cache)
 	if err != nil {
 		log.Fatal(err)
@@ -71,25 +80,30 @@ func (a *App) TopCommunity() []bootdevapi.Archsage {
 	return list
 }
 
+// LoginUser takes the user's one-time password and exchanges it
+// for an access_token and refresh_token from Boot.Dev
 func (a *App) LoginUser(OTP string) (bool, error) {
-	token, err := login.ExchangeOTPForToken(OTP)
+	tokens, err := login.ExchangeOTPForToken(OTP)
 	if err != nil {
 		return false, errors.New("error exchanging OTP for Token")
 	}
-	if token.AccessToken == "" {
+	if tokens.AccessToken == "" {
 		return false, errors.New("empty token after exchanging with OTP")
 	}
 
 	// set token in App struct so it can be used for
 	// user-specific queries
-	a.token = token.AccessToken
+	a.tokens = *tokens
 
 	return true, nil
 }
 
+// UserData sends an authenticated request to gather the user's
+// data for display in the app.
 func (a *App) UserData() {
-	if a.token == "" {
-		return
+	tokens, err := login.RefreshToken()
+	if err != nil {
+		log.Print(err)
 	}
-
+	log.Printf("tokens: %v", tokens)
 }

@@ -15,20 +15,20 @@ func GetDiscordLeaderboard(c cache.Cache) ([]Archon, error) {
 		return nil, errors.New("error getting karma url")
 	}
 
-	// Declare `archsages` ahead of time. `archsages`
+	// Declare `archons` ahead of time. `archons`
 	// needs to be declared for the JSON from the cache
 	// to be unmarshaled
-	var archsages = []Archon{}
+	var archons = []Archon{}
 
 	// Check cache for a hit before requesting
 	cacheHit, ok := c.Get(communityLB)
 	if ok {
-		err := json.Unmarshal([]byte(cacheHit), &archsages)
+		err := json.Unmarshal([]byte(cacheHit), &archons)
 		if err != nil {
 			return nil, err
 		}
 		// return cache hit and exit early
-		return archsages, nil
+		return archons, nil
 	}
 	// Create a new request
 	req, err := http.NewRequest("GET", communityLB, nil)
@@ -44,14 +44,14 @@ func GetDiscordLeaderboard(c cache.Cache) ([]Archon, error) {
 	defer resp.Body.Close()
 
 	// If the request succeeds, we'll decode
-	// the JSON response into `archsages`
+	// the JSON response into `archons`
 	decoder := json.NewDecoder(resp.Body)
-	err = decoder.Decode(&archsages)
+	err = decoder.Decode(&archons)
 	if err != nil {
 		return nil, err
 	}
 
-	sages, err := json.Marshal(archsages)
+	sages, err := json.Marshal(archons)
 	if err != nil {
 		return nil, err
 	}
@@ -61,5 +61,5 @@ func GetDiscordLeaderboard(c cache.Cache) ([]Archon, error) {
 	// interval period
 	c.Add(communityLB, &sages)
 
-	return archsages, nil
+	return archons, nil
 }
