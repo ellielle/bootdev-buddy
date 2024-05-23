@@ -19,6 +19,8 @@ func TestMain(t *testing.T) {
 		"stats":    {input: "stats", want: "https://api.boot.dev/v1/leaderboard_stats"},
 		"daily":    {input: "daily", want: "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"},
 		"karma":    {input: "karma", want: "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=30"},
+		"user":     {input: "user", want: "https://api.boot.dev/v1/users"},
+		"feed":     {input: "feed", want: "https://api.boot.dev/v1/lesson_completion_feed"},
 	}
 
 	for name, tc := range tests {

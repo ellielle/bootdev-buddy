@@ -15,14 +15,9 @@ import (
 // The list will be paginated to only show 10
 func GetDailyStats(c cache.Cache) ([]LeaderboardUser, error) {
 	// daily stats leaderboard URL
-	const dailyStatsLB = "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"
-
-	// TODO:
-
-	// Create a new request
-	req, err := http.NewRequest("GET", dailyStatsLB, nil)
+	dailyStatsLB, err := BootDevAPIMap("daily")
 	if err != nil {
-		return []LeaderboardUser{}, errors.New(err.Error())
+		return []LeaderboardUser{}, errors.New("error getting daily stats url")
 	}
 
 	// Declare `dailyStats` ahead of time. `dailyStats`
@@ -39,6 +34,12 @@ func GetDailyStats(c cache.Cache) ([]LeaderboardUser, error) {
 		}
 		// return cache hit and exit early
 		return dailyStats, nil
+	}
+
+	// Create a new request
+	req, err := http.NewRequest("GET", dailyStatsLB, nil)
+	if err != nil {
+		return []LeaderboardUser{}, errors.New(err.Error())
 	}
 
 	// Send that request out!

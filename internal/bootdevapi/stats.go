@@ -10,12 +10,9 @@ import (
 
 func GetGeneralStats(c cache.Cache) (GlobalStats, error) {
 	// Regular leaderboard stats URL
-	const statsLB = "https://api.boot.dev/v1/leaderboard_stats"
-
-	// Create a new request to https://api.boot.dev/v1/leaderboard_stats
-	req, err := http.NewRequest("GET", statsLB, nil)
+	statsLB, err := BootDevAPIMap("stats")
 	if err != nil {
-		return GlobalStats{}, errors.New(err.Error())
+		return GlobalStats{}, errors.New("error getting stats url")
 	}
 
 	// Declare `globalStats` ahead of time. `globalStats`
@@ -32,6 +29,12 @@ func GetGeneralStats(c cache.Cache) (GlobalStats, error) {
 		}
 		// return cache hit and exit early
 		return globalStats, nil
+	}
+
+	// Create a new request to https://api.boot.dev/v1/leaderboard_stats
+	req, err := http.NewRequest("GET", statsLB, nil)
+	if err != nil {
+		return GlobalStats{}, errors.New(err.Error())
 	}
 
 	// Send that request out!
