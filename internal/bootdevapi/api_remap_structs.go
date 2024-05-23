@@ -60,7 +60,40 @@ type Archmage struct {
 
 // Discord community members. It was a decent way to distinguish
 // it with other `user` types in the code.
-type Archsage struct {
+type Archon struct {
 	LeaderboardUser
 	Karma int `json:"Karma"`
+}
+
+type UserData struct {
+	DiscordUserHandle       string    `json:"DiscordUserHandle"`
+	SyncedGoogleID          any       `json:"SyncedGoogleID"`
+	SyncedGithubID          int       `json:"SyncedGithubID"`
+	ManualProSubExpiresAt   time.Time `json:"ManualProSubExpiresAt"`
+	LifetimeProSubCreatedAt any       `json:"LifetimeProSubCreatedAt"`
+	MembershipExpiresAt     time.Time `json:"MembershipExpiresAt"`
+	Email                   string    `json:"Email"`
+	Currency                string    `json:"Currency"`
+	Xp                      int       `json:"XP"`
+	Level                   int       `json:"Level"`
+	XPForLevel              int       `json:"XPForLevel"`
+	XPTotalForLevel         int       `json:"XPTotalForLevel"`
+	Role                    string    `json:"Role"`
+	Gems                    int       `json:"Gems"`
+	Armor                   int       `json:"Armor"`
+	CreatedAt               time.Time `json:"CreatedAt"`
+	UpdatedAt               time.Time `json:"UpdatedAt"`
+	FirstName               string    `json:"FirstName"`
+	LastName                string    `json:"LastName"`
+	Handle                  string    `json:"Handle"`
+	Bio                     string    `json:"Bio"`
+	JobTitle                any       `json:"JobTitle"`
+	Location                string    `json:"Location"`
+	City                    any       `json:"City"`
+	Country                 any       `json:"Country"`
+	GithubHandle            string    `json:"GithubHandle"`
+	WebsiteURL              string    `json:"WebsiteURL"`
+	ProfileImageURL         string    `json:"ProfileImageURL"`
+	IsSubscribed            bool      `json:"IsSubscribed"`
+	GithubSynced            bool      `json:"GithubSynced"`
 }

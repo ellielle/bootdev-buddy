@@ -17,7 +17,7 @@ func GetDailyStats(c cache.Cache) ([]LeaderboardUser, error) {
 	// daily stats leaderboard URL
 	dailyStatsLB, err := BootDevAPIMap("daily")
 	if err != nil {
-		return []LeaderboardUser{}, errors.New("error getting daily stats url")
+		return nil, errors.New("error getting daily stats url")
 	}
 
 	// Declare `dailyStats` ahead of time. `dailyStats`
@@ -30,7 +30,7 @@ func GetDailyStats(c cache.Cache) ([]LeaderboardUser, error) {
 	if ok {
 		err := json.Unmarshal([]byte(cacheHit), &dailyStats)
 		if err != nil {
-			return []LeaderboardUser{}, err
+			return nil, err
 		}
 		// return cache hit and exit early
 		return dailyStats, nil
@@ -39,13 +39,13 @@ func GetDailyStats(c cache.Cache) ([]LeaderboardUser, error) {
 	// Create a new request
 	req, err := http.NewRequest("GET", dailyStatsLB, nil)
 	if err != nil {
-		return []LeaderboardUser{}, errors.New(err.Error())
+		return nil, err
 	}
 
 	// Send that request out!
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return []LeaderboardUser{}, errors.New(err.Error())
+		return nil, err
 	}
 	defer resp.Body.Close()
 
@@ -54,12 +54,12 @@ func GetDailyStats(c cache.Cache) ([]LeaderboardUser, error) {
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&dailyStats)
 	if err != nil {
-		return []LeaderboardUser{}, errors.New(err.Error())
+		return nil, err
 	}
 
 	mages, err := json.Marshal(dailyStats)
 	if err != nil {
-		return []LeaderboardUser{}, errors.New(err.Error())
+		return nil, err
 	}
 
 	// Write the url and data to the cache so it can be
