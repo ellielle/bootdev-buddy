@@ -34,13 +34,13 @@ func GetGeneralStats(c cache.Cache) (GlobalStats, error) {
 	// Create a new request to https://api.boot.dev/v1/leaderboard_stats
 	req, err := http.NewRequest("GET", statsLB, nil)
 	if err != nil {
-		return GlobalStats{}, errors.New(err.Error())
+		return GlobalStats{}, err
 	}
 
 	// Send that request out!
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return GlobalStats{}, errors.New(err.Error())
+		return GlobalStats{}, err
 	}
 	defer resp.Body.Close()
 
@@ -49,12 +49,12 @@ func GetGeneralStats(c cache.Cache) (GlobalStats, error) {
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&globalStats)
 	if err != nil {
-		return GlobalStats{}, errors.New(err.Error())
+		return GlobalStats{}, err
 	}
 
 	statsJSON, err := json.Marshal(globalStats)
 	if err != nil {
-		return GlobalStats{}, errors.New(err.Error())
+		return GlobalStats{}, err
 	}
 
 	// Write the url and data to the cache so it can be

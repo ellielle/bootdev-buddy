@@ -15,7 +15,7 @@ func Archmages(c cache.Cache) ([]Archmage, error) {
 	// Archmage leaderboard URL
 	archmageLB, err := BootDevAPIMap("archmage")
 	if err != nil {
-		return []Archmage{}, errors.New("error getting archmage url")
+		return nil, errors.New("error getting archmage url")
 	}
 
 	// Declare `archmages` ahead of time. `archmages`
@@ -28,7 +28,7 @@ func Archmages(c cache.Cache) ([]Archmage, error) {
 	if ok {
 		err := json.Unmarshal([]byte(cacheHit), &archmages)
 		if err != nil {
-			return []Archmage{}, err
+			return nil, err
 		}
 		// return cache hit and exit early
 		return archmages, nil
@@ -37,13 +37,13 @@ func Archmages(c cache.Cache) ([]Archmage, error) {
 	// Create a new request
 	req, err := http.NewRequest("GET", archmageLB, nil)
 	if err != nil {
-		return []Archmage{}, errors.New(err.Error())
+		return nil, err
 	}
 
 	// Send that request out!
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return []Archmage{}, errors.New(err.Error())
+		return nil, err
 	}
 	defer resp.Body.Close()
 
@@ -52,13 +52,13 @@ func Archmages(c cache.Cache) ([]Archmage, error) {
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&archmages)
 	if err != nil {
-		return []Archmage{}, errors.New(err.Error())
+		return nil, err
 	}
 
 	// Marshal the data into JSON to be written to cache
 	mages, err := json.Marshal(archmages)
 	if err != nil {
-		return []Archmage{}, errors.New(err.Error())
+		return nil, err
 	}
 
 	// Write the url and data to the cache so it can be
