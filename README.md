@@ -1,5 +1,7 @@
 # Boot.dev Buddy
 
+[![CI](https://github.com/ellielle/bootdev-buddy/actions/workflows/ci.yml/badge.svg)](https://github.com/ellielle/bootdev-buddy/actions/workflows/ci.yml)
+
 This app provides a GUI to collect and show data from [Boot.dev](https://boot.dev/). It can be used as a companion app while doing coursework to monitor on-going events, buff timers, courses or lessons added since the app was last opened, and much more.
 
 Note: This project isn't affiliated with Boot.dev in any way. I'm just a student that wanted to make something I thought was cool.
