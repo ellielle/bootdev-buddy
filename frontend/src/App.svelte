@@ -5,12 +5,13 @@
     TopDailyLearners,
     TopCommunity,
     LoginUser,
+    UserData,
   } from "../wailsjs/go/main/App.js";
 
   // Holds all Archmages and their publicly available data
   let archmages = [];
   // Holds the top 30 discord karma leaderboard users
-  let archsages = [];
+  let archons = [];
   // Holds the top 30 leaderboard users
   let leaders = [];
 
@@ -58,13 +59,19 @@
   // getTopCommunity returns the top 30 users with the highest karma,
   // a stat earned by being active in the Discord channel
   function getTopCommunity() {
-    TopCommunity().then((result) => (archsages = result.slice(0, 10)));
+    TopCommunity().then((result) => (archons = result.slice(0, 10)));
   }
 
   // loginUser takes a user's OTP, trades it for an access token which
   // is saved for futher use, and marks the user as logged in
   function loginUser() {
     LoginUser(otpField).then((result) => (isLoggedIn = result));
+  }
+
+  // getUserData returns the user's Boot.Dev data, including courses
+  // completed, current xp and to next level xp, and much more.
+  function getUserData() {
+    UserData().then((result) => console.log(result));
   }
 </script>
 
@@ -134,7 +141,16 @@
         <button class="btn" on:click={getTopCommunity}
           >Show Discord Leaders!</button
         >
-        {#each archsages as sage}
+        {#each archons as sage}
+          <div>
+            {sage?.Handle}
+          </div>
+        {/each}
+      </div>
+
+      <div class="menu-item">
+        <button class="btn" on:click={getUserData}>Get User Data</button>
+        {#each archons as sage}
           <div>
             {sage?.Handle}
           </div>
