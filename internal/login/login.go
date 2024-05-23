@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"io"
-	"log"
 	"net/http"
 	"os"
 )
@@ -60,10 +59,6 @@ func ExchangeOTPForToken(OTP string) (*BDToken, error) {
 		return nil, err
 	}
 
-	// save the keys locally, so the user doesn't
-	// need to sign in via OTP at regular intervals
-	err = writeKeys(&loginResp)
-
 	return &loginResp, err
 }
 
@@ -71,14 +66,12 @@ func ExchangeOTPForToken(OTP string) (*BDToken, error) {
 // from the local file, and use it to refresh the user's
 // access_token.
 func RefreshToken() (*BDToken, error) {
-	log.Print("refresh token called")
 	const REFRESH_URL = "https://api.boot.dev/v1/auth/refresh"
 	tokens, err := readKeys()
 	if err != nil {
 		return nil, err
 	}
 
-	// TODO:
 	tokenData, err := json.Marshal(tokens)
 	if err != nil {
 		return nil, err
@@ -117,9 +110,16 @@ func RefreshToken() (*BDToken, error) {
 		return nil, err
 	}
 
-	err = writeKeys(&newTokens)
-
 	return &newTokens, err
+}
+
+func SaveTokens(tokens *BDToken) error {
+	err := writeKeys(tokens)
+	if err != nil {
+		return err
+	}
+
+	return err
 }
 
 // writeKeys takes the Boot.Dev access_token and
@@ -131,21 +131,20 @@ func writeKeys(tokens *BDToken) error {
 	if os.IsNotExist(err) {
 		file, err = os.Create(".bootdevbuddy.json")
 		if err != nil {
-			return errors.New("error creating key file")
+			return err
 		}
-	} else {
-		file, err = os.Open(".bootdevbuddy.json")
-		if err != nil {
-			return errors.New("error opening key file")
-		}
+	}
+
+	file, err = os.OpenFile(".bootdevbuddy.json", os.O_WRONLY, os.ModeAppend)
+	if err != nil {
+		return errors.New("error opening key file")
 	}
 	defer file.Close()
 
-	keys, err := json.Marshal(tokens)
+	keys, err := json.Marshal(&tokens)
 	if err != nil {
 		return errors.New("error marshaling json")
 	}
-	log.Print("FILE WRITTEN")
 
 	_, err = file.Write(keys)
 	if err != nil {
@@ -159,19 +158,16 @@ func writeKeys(tokens *BDToken) error {
 // into a struct, and returns the access_token and
 // refresh_token
 func readKeys() (*BDToken, error) {
+
 	_, err := os.Stat(".bootdevbuddy.json")
-	var file *os.File
 
 	if os.IsNotExist(err) {
-		file, err = os.Create(".bootdevbuddy.json")
-		if err != nil {
-			return nil, errors.New("error creating key file")
-		}
-	} else {
-		file, err = os.Open(".bootdevbuddy.json")
-		if err != nil {
-			return nil, errors.New("error opening key file")
-		}
+		return nil, errors.New("no saved data")
+	}
+
+	file, err := os.OpenFile(".bootdevbuddy.json", os.O_WRONLY, os.ModeAppend)
+	if err != nil {
+		return nil, errors.New("error opening key file")
 	}
 	defer file.Close()
 
@@ -183,7 +179,7 @@ func readKeys() (*BDToken, error) {
 	var keys BDToken
 	err = json.Unmarshal(data, &keys)
 	if err != nil {
-		return nil, errors.New("error unmarshaling json")
+		return nil, err
 	}
 
 	return &keys, nil

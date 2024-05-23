@@ -32,7 +32,12 @@ func (a *App) startup(ctx context.Context) {
 	a.cache = cache.NewCache(5 * time.Minute)
 	tokens, err := login.RefreshToken()
 	if err != nil {
-		log.Fatal(err)
+		return
+	}
+
+	err = login.SaveTokens(tokens)
+	if err != nil {
+		log.Print(err)
 	}
 
 	a.tokens = *tokens
@@ -91,6 +96,10 @@ func (a *App) LoginUser(OTP string) (bool, error) {
 		return false, errors.New("empty token after exchanging with OTP")
 	}
 
+	err = login.SaveTokens(tokens)
+	if err != nil {
+		return false, err
+	}
 	// set token in App struct so it can be used for
 	// user-specific queries
 	a.tokens = *tokens
@@ -105,5 +114,7 @@ func (a *App) UserData() {
 	if err != nil {
 		log.Print(err)
 	}
-	log.Printf("tokens: %v", tokens)
+
+	//TODO: UNFINISHED STOP IGNORING ME
+	log.Print(tokens)
 }
