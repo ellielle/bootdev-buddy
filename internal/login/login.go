@@ -62,9 +62,9 @@ func ExchangeOTPForToken(OTP string) (*BDToken, error) {
 
 	// save the keys locally, so the user doesn't
 	// need to sign in via OTP at regular intervals
-	writeKeys(&loginResp)
+	err = writeKeys(&loginResp)
 
-	return &loginResp, nil
+	return &loginResp, err
 }
 
 // RefreshToken can be called to get the refresh_token
@@ -85,7 +85,10 @@ func RefreshToken() (*BDToken, error) {
 	}
 
 	var jsonData BDToken
-	json.Unmarshal(tokenData, &jsonData)
+	err = json.Unmarshal(tokenData, &jsonData)
+	if err != nil {
+		return nil, err
+	}
 
 	req, err := http.NewRequest("POST", REFRESH_URL, bytes.NewBuffer(tokenData))
 	if err != nil {
@@ -114,9 +117,9 @@ func RefreshToken() (*BDToken, error) {
 		return nil, err
 	}
 
-	writeKeys(&newTokens)
+	err = writeKeys(&newTokens)
 
-	return &newTokens, nil
+	return &newTokens, err
 }
 
 // writeKeys takes the Boot.Dev access_token and
