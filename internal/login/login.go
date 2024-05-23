@@ -129,7 +129,7 @@ func writeKeys(tokens *BDToken) error {
 	var file *os.File
 
 	if os.IsNotExist(err) {
-		file, err = os.Create(".bootdevbuddy.json")
+		_, err = os.Create(".bootdevbuddy.json")
 		if err != nil {
 			return err
 		}
