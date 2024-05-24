@@ -1,29 +1,28 @@
 package cache
 
 import (
-	"fmt"
 	"testing"
 	"time"
 )
 
 func TestAddGet(t *testing.T) {
 	const interval = 5 * time.Second
-	cases := []struct {
+	cases := map[string]struct {
 		key  string
 		want []byte
 	}{
-		{
+		"simple": {
 			key:  "https://api.boot.dev",
 			want: []byte(`{"IsAdmin": false}`),
 		},
-		{
+		"less simple": {
 			key:  "https://api.boot.dev/v1/leaderboard_archmage",
 			want: []byte(`{"FirstName": Noelle}`),
 		},
 	}
 
-	for i, tc := range cases {
-		t.Run(fmt.Sprintf("Test case %v", i), func(t *testing.T) {
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
 			cache := NewCache(interval)
 			cache.Add(tc.key, &tc.want)
 			val, ok := cache.Get(tc.key)
@@ -43,17 +42,17 @@ func TestReapLoop(t *testing.T) {
 	const interval = 5 * time.Millisecond
 	const waitTime = interval + 5*time.Millisecond
 
-	cases := []struct {
+	cases := map[string]struct {
 		key  string
 		want []byte
 	}{
-		{
+		"simple": {
 			key: "https://api.boot.dev/",
 		},
 	}
 
-	for i, tc := range cases {
-		t.Run(fmt.Sprintf("Test case %v", i), func(t *testing.T) {
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
 			cache := NewCache(interval)
 			testData := []byte("testdata")
 			cache.Add(tc.key, &testData)
