@@ -14,6 +14,8 @@ type BDToken struct {
 	RefreshToken string `json:"refresh_token"`
 }
 
+const LOCAL_KEYS = ".bootdevbuddy.json"
+
 func ExchangeOTPForToken(OTP string) (*BDToken, error) {
 	if OTP == "" {
 		return nil, errors.New("empty one-time password")
@@ -125,31 +127,21 @@ func SaveTokens(tokens *BDToken) error {
 // writeKeys takes the Boot.Dev access_token and
 // refresh_token and saves them locally.
 func writeKeys(tokens *BDToken) error {
-	_, err := os.Stat(".bootdevbuddy.json")
-	var file *os.File
+	_, err := os.Stat(LOCAL_KEYS)
 
 	if os.IsNotExist(err) {
-		_, err = os.Create(".bootdevbuddy.json")
+		_, err = os.Create(LOCAL_KEYS)
 		if err != nil {
 			return err
 		}
 	}
-
-	file, err = os.OpenFile(".bootdevbuddy.json", os.O_WRONLY, os.ModeAppend)
-	if err != nil {
-		return errors.New("error opening key file")
-	}
-	defer file.Close()
 
 	keys, err := json.Marshal(&tokens)
 	if err != nil {
 		return errors.New("error marshaling json")
 	}
 
-	_, err = file.Write(keys)
-	if err != nil {
-		return errors.New("error writing key file")
-	}
+	os.WriteFile(LOCAL_KEYS, keys, 0666)
 
 	return nil
 }
@@ -159,25 +151,19 @@ func writeKeys(tokens *BDToken) error {
 // refresh_token
 func readKeys() (*BDToken, error) {
 
-	_, err := os.Stat(".bootdevbuddy.json")
+	_, err := os.Stat(LOCAL_KEYS)
 
 	if os.IsNotExist(err) {
 		return nil, errors.New("no saved data")
 	}
 
-	file, err := os.OpenFile(".bootdevbuddy.json", os.O_WRONLY, os.ModeAppend)
+	file, err := os.ReadFile(LOCAL_KEYS)
 	if err != nil {
 		return nil, errors.New("error opening key file")
 	}
-	defer file.Close()
-
-	data, err := io.ReadAll(file)
-	if err != nil {
-		return nil, errors.New("error reading key file")
-	}
 
 	var keys BDToken
-	err = json.Unmarshal(data, &keys)
+	err = json.Unmarshal(file, &keys)
 	if err != nil {
 		return nil, err
 	}
