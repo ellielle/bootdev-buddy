@@ -141,9 +141,9 @@ func writeKeys(tokens *BDToken) error {
 		return errors.New("error marshaling json")
 	}
 
-	os.WriteFile(LOCAL_KEYS, keys, 0666)
+	err = os.WriteFile(LOCAL_KEYS, keys, 0600)
 
-	return nil
+	return err
 }
 
 // readKeys reads .bootdevbuddy.json, unmarshals it
