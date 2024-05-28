@@ -85,9 +85,9 @@ func (a *App) TopCommunity() []bootdevapi.Archon {
 	return list
 }
 
-// LoginUser takes the user's one-time password and exchanges it
+// LoginUserWithOTP takes the user's one-time password and exchanges it
 // for an access_token and refresh_token from Boot.Dev
-func (a *App) LoginUser(OTP string) (bool, error) {
+func (a *App) LoginUserWithOTP(OTP string) (bool, error) {
 	tokens, err := login.ExchangeOTPForToken(OTP)
 	if err != nil {
 		return false, errors.New("error exchanging OTP for Token")
@@ -107,14 +107,20 @@ func (a *App) LoginUser(OTP string) (bool, error) {
 	return true, nil
 }
 
+func (a *App) LoginUserWithToken() (bool, error) {
+	// Don't waste calls and assume the 1 hour token is invalid
+	tokens, err := login.RefreshToken()
+	if err != nil {
+		return false, err
+	}
+
+	a.tokens = *tokens
+
+	return true, nil
+}
+
 // UserData sends an authenticated request to gather the user's
 // data for display in the app.
 func (a *App) UserData() {
-	tokens, err := login.RefreshToken()
-	if err != nil {
-		log.Print(err)
-	}
-
-	//TODO: UNFINISHED STOP IGNORING ME
-	log.Print(tokens)
+	log.Print("UserData")
 }

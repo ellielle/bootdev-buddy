@@ -16,6 +16,10 @@ type BDToken struct {
 
 const LOCAL_KEYS = ".bootdevbuddy.json"
 
+const REFRESH_URL = "https://api.boot.dev/v1/auth/refresh"
+
+const OTP_LOGIN = "https://api.boot.dev/v1/auth/otp/login"
+
 func ExchangeOTPForToken(OTP string) (*BDToken, error) {
 	if OTP == "" {
 		return nil, errors.New("empty one-time password")
@@ -23,7 +27,6 @@ func ExchangeOTPForToken(OTP string) (*BDToken, error) {
 	// Boot.Dev's one-time password login for their CLI app
 	// The token returned can be used to authenticate the user
 	// across their API
-	const OTP_LOGIN = "https://api.boot.dev/v1/auth/otp/login"
 
 	type apiRequest struct {
 		Otp string `json:"Otp"`
@@ -64,11 +67,9 @@ func ExchangeOTPForToken(OTP string) (*BDToken, error) {
 	return &loginResp, err
 }
 
-// RefreshToken can be called to get the refresh_token
-// from the local file, and use it to refresh the user's
-// access_token.
+// RefreshToken gets the refresh_token from the local file
+// and uses it to refresh the user's access_token.
 func RefreshToken() (*BDToken, error) {
-	const REFRESH_URL = "https://api.boot.dev/v1/auth/refresh"
 	tokens, err := readKeys()
 	if err != nil {
 		return nil, err
@@ -117,11 +118,14 @@ func RefreshToken() (*BDToken, error) {
 
 func SaveTokens(tokens *BDToken) error {
 	err := writeKeys(tokens)
-	if err != nil {
-		return err
-	}
 
 	return err
+}
+
+func ReadTokens() (*BDToken, error) {
+	tokens, err := readKeys()
+
+	return tokens, err
 }
 
 // writeKeys takes the Boot.Dev access_token and
@@ -150,7 +154,6 @@ func writeKeys(tokens *BDToken) error {
 // into a struct, and returns the access_token and
 // refresh_token
 func readKeys() (*BDToken, error) {
-
 	_, err := os.Stat(LOCAL_KEYS)
 
 	if os.IsNotExist(err) {

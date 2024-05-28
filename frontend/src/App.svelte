@@ -1,10 +1,12 @@
 <script>
+  import { onMount } from "svelte";
   import {
     ArchmagesList,
     GlobalStats,
     TopDailyLearners,
     TopCommunity,
-    LoginUser,
+    LoginUserWithOTP,
+    LoginUserWithToken,
     UserData,
   } from "../wailsjs/go/main/App.js";
 
@@ -65,7 +67,7 @@
   // loginUser takes a user's OTP, trades it for an access token which
   // is saved for futher use, and marks the user as logged in
   function loginUser() {
-    LoginUser(otpField).then((result) => (isLoggedIn = result));
+    LoginUserWithOTP(otpField).then((result) => (isLoggedIn = result));
   }
 
   // getUserData returns the user's Boot.Dev data, including courses
@@ -73,6 +75,12 @@
   function getUserData() {
     UserData().then((result) => console.log(result));
   }
+
+  onMount(() => {
+    // Attempt to log the user on mount by refreshing their
+    // access token
+    LoginUserWithToken().then((result) => (isLoggedIn = result));
+  });
 </script>
 
 <main>
