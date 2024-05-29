@@ -1,14 +1,15 @@
 <script>
+  import "./app.css";
   import { onMount } from "svelte";
   import {
     ArchmagesList,
     GlobalStats,
     TopDailyLearners,
     TopCommunity,
-    LoginUserWithOTP,
-    LoginUserWithToken,
     UserData,
+    LoginUserWithToken,
   } from "../wailsjs/go/main/App.js";
+  import Login from "./components/Login.svelte";
 
   // Holds all Archmages and their publicly available data
   let archmages = [];
@@ -16,20 +17,12 @@
   let archons = [];
   // Holds the top 30 leaderboard users
   let leaders = [];
-
   // Holds the general global leaderboard stats
   let stats = {};
-  // is the current user an Archmage? Use for a few features
-  // such as name highlighting
-
-  // Empty field initially for the one-time password
-
-  let otpField = "";
 
   // Information about the user
-
-  let isArchmage = false;
-  let isLoggedIn;
+  export let isArchmage = false;
+  export let isLoggedIn = false;
 
   // Because separating the keys with regex is worse
   const generalStats = {
@@ -64,21 +57,15 @@
     TopCommunity().then((result) => (archons = result.slice(0, 10)));
   }
 
-  // loginUser takes a user's OTP, trades it for an access token which
-  // is saved for futher use, and marks the user as logged in
-  function loginUser() {
-    LoginUserWithOTP(otpField).then((result) => (isLoggedIn = result));
-  }
-
   // getUserData returns the user's Boot.Dev data, including courses
   // completed, current xp and to next level xp, and much more.
   function getUserData() {
     UserData().then((result) => console.log(result));
   }
 
+  // Attempt to log the user on mount by refreshing their
+  // access token
   onMount(() => {
-    // Attempt to log the user on mount by refreshing their
-    // access token
     LoginUserWithToken().then((result) => (isLoggedIn = result));
   });
 </script>
@@ -86,36 +73,9 @@
 <main>
   <div class="container-buddy">
     <div class="menu-container">
-      {#if !isLoggedIn}
-        <div class="menu-item btn-login">
-          <div>
-            You aren't currently logged in! You will only have limited
-            functionality.
-          </div>
-          <div>
-            Please
-            <a
-              href="https://www.boot.dev/cli/login?redirect=/cli/login"
-              target="_blank">click here</a
-            >
-            to login.
-          </div>
-          The login instructions can&nbsp;<a
-            href="https://github.com/ellielle/bootdev-buddy#logging-in"
-            target="_blank"
-          >
-            be found here</a
-          >.
-        </div>
-        <div class="menu-item">
-          <input
-            type="text"
-            placeholder="Boot.Dev CLI Code"
-            bind:value={otpField}
-          />
-          <button on:click={loginUser}>Sign in</button>
-        </div>
-      {/if}
+      <!-- show user login button if automatic sign in fails -->
+      <Login loggedIn={isLoggedIn} />
+
       <div class="menu-item">
         <button class="btn" on:click={getArchmages}
           >Get Last 10 Archmages</button
@@ -176,3 +136,4 @@
     grid-auto-flow: row;
   }
 </style>
+
