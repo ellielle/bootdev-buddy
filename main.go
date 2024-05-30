@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"log"
 
 	"github.com/wailsapp/wails/v2"
 	"github.com/wailsapp/wails/v2/pkg/options"
@@ -21,25 +22,27 @@ func main() {
 		Title:       "Boot.dev Buddy",
 		Width:       1024,
 		Height:      768,
-		StartHidden: true,
+		StartHidden: false,
 		// Set to true to remove border
-		Frameless: false,
+		Frameless: true,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
 		// translucency is also controlled by the background in
 		// the app's main style.css file
-		BackgroundColour: &options.RGBA{R: 0, G: 0, B: 0, A: 100},
+		// FIXME: when StartHidden is set to false, the foreground isn't
+		// visible
+		BackgroundColour: &options.RGBA{R: 30, G: 30, B: 30, A: 255},
 		OnStartup:        app.startup,
 		Bind: []interface{}{
 			app,
 		},
 		Linux: &linux.Options{
-			WindowIsTranslucent: true,
+			WindowIsTranslucent: false,
 		},
 	})
 
 	if err != nil {
-		println("Error:", err.Error())
+		log.Fatal(err)
 	}
 }
