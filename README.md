@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/ellielle/bootdev-buddy/actions/workflows/ci.yml/badge.svg)](https://github.com/ellielle/bootdev-buddy/actions/workflows/ci.yml)
 
-This app provides a GUI to collect and show data from [Boot.dev](https://boot.dev/). It can be used as a companion app while doing coursework to monitor on-going events, buff timers, courses or lessons added since the app was last opened, and much more.
+This app provides a GUI to collect and show data from [Boot.dev](https://boot.dev/). It can be used as a companion app while doing coursework to monitor on-going events, their buffs, and much more.
 
 Note: This project isn't affiliated with Boot.dev in any way. I'm just a student that wanted to make something I thought was cool.
 
@@ -10,7 +10,21 @@ Note: This project isn't affiliated with Boot.dev in any way. I'm just a student
 
 Boot.dev uses a one-time password system for logging in via it's CLI. Using this same OTP, BDB can authenticate the user and retrieve their Boot.dev data.
 
-> Currently logging into the app is session-based. You'll need another OTP each time you open it.
+Access tokens are only valid for 60 minutes. Once invalid, the app will attempt to renew the token. If it fails, you may need get another OTP and sign in again. If that fails, restart the app.
+
+## Planned Features
+
+- [x] Sign in using Boot.dev's authentication
+- [x] In-memory cache of requests made
+- [ ] Not in-memory cache of images
+- [x] Automatic sign-in on load
+- [ ] Fancier and more formatted stats
+- [ ] View other mages' profiles by click
+- [ ] View a tally of lessons completed, and see how many of each course are done
+- [ ] Buff timers
+- [ ] Boss event monitoring / participation
+- [ ] Pomodoro timer (might as well if it's going to be open!)
+- [ ] More(?)
 
 ## Live Development
 
