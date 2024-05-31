@@ -24,6 +24,8 @@ type ActivityFeedUser struct {
 	CourseName string `json:"CourseName"`
 }
 
+// LeaderboardUser is a struct to hold users from
+// the leaderboard_stats endpoint
 // string pointers are used for nullable fields
 type LeaderboardUser struct {
 	DiscordUserHandle *string   `json:"DiscordUserHandle"`
@@ -53,6 +55,7 @@ type LeaderboardUser struct {
 	XPEarned          int       `json:"XPEarned"`
 }
 
+// Archmage holds users from the leaderboard_archmage endpoint
 type Archmage struct {
 	LeaderboardUser
 	ArchmageUnlockedAt time.Time `json:"ArchmageUnlockedAt"`
@@ -65,6 +68,7 @@ type Archon struct {
 	Karma int `json:"Karma"`
 }
 
+// UserData holds data about the user from the users endpoint
 type UserData struct {
 	DiscordUserHandle       string    `json:"DiscordUserHandle"`
 	SyncedGoogleID          any       `json:"SyncedGoogleID"`

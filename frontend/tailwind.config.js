@@ -2,8 +2,8 @@
 // @ts-check
 import { join } from "path";
 
-// 1. Import the Skeleton plugin
 import { skeleton } from "@skeletonlabs/tw-plugin";
+import { bootDevTheme } from "../bootdevtheme.js";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -23,7 +23,9 @@ export default {
   plugins: [
     // 4. Append the Skeleton plugin (after other plugins)
     skeleton({
-      themes: { preset: ["gold-nouveau"] },
+      themes: {
+        custom: [bootDevTheme],
+      },
     }),
   ],
 };

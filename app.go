@@ -121,6 +121,13 @@ func (a *App) LoginUserWithToken() (bool, error) {
 
 // UserData sends an authenticated request to gather the user's
 // data for display in the app.
-func (a *App) UserData() {
-	log.Print("UserData")
+func (a *App) UserData() (bootdevapi.UserData, error) {
+	userData, err := bootdevapi.UserInfo(a.cache, a.tokens.AccessToken)
+	if err != nil {
+		return bootdevapi.UserData{}, nil
+	}
+
+	log.Print(userData)
+
+	return userData, nil
 }
