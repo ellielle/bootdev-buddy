@@ -95,6 +95,5 @@
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-auto-flow: row;
-    color: orange;
   }
 </style>
