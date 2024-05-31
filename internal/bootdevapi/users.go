@@ -3,7 +3,6 @@ package bootdevapi
 import (
 	"encoding/json"
 	"errors"
-	"log"
 	"net/http"
 
 	"github.com/ellielle/bootdev-buddy/internal/cache"
