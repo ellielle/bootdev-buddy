@@ -25,7 +25,7 @@
         rounded=""
       >
         <span>{option}</span>
-      </Tab>
+      </tab>
     {/each}
 
     <!-- tab panels -->
