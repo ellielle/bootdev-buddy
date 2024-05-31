@@ -17,7 +17,7 @@
   <TabGroup>
     {#each tabs as option, index}
       <Tab bind:group={tabSet} name={option} value={index}>
-        <span style="color: hotpink;">{option}</span>
+        <span>{option}</span>
       </Tab>
     {/each}
 
