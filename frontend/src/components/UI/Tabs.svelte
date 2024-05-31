@@ -2,6 +2,7 @@
   import Archmages from "../content/Archmages.svelte";
   import General from "../content/General.svelte";
   import { Tab, TabGroup, TabAnchor } from "@skeletonlabs/skeleton";
+  import Stats from "../content/Stats.svelte";
 
   /** @type number */
   let tabSet = 0;
@@ -16,7 +17,13 @@
 <main>
   <TabGroup>
     {#each tabs as option, index}
-      <Tab bind:group={tabSet} name={option} value={index}>
+      <Tab
+        bind:group={tabSet}
+        name={option}
+        value={index}
+        active="border-b-2 border-r-2 border-primary-400-500-token"
+        rounded=""
+      >
         <span>{option}</span>
       </Tab>
     {/each}
@@ -27,13 +34,13 @@
         <General />
       {/if}
       {#if tabSet === 1}
-        <Archmages />
+        <!-- <Courses /> -->
       {/if}
       {#if tabSet === 2}
-        <Archmages />
+        <Stats />
       {/if}
       {#if tabSet === 3}
-        <Archmages />
+        <!-- <BossBattle /> -->
       {/if}
       {#if tabSet === 4}
         <Archmages />

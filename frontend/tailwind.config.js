@@ -3,7 +3,7 @@
 import { join } from "path";
 
 import { skeleton } from "@skeletonlabs/tw-plugin";
-import { bootDevTheme } from "../bootdevtheme.js";
+import { bootDevTheme } from "./bootdevtheme.js";
 
 /** @type {import('tailwindcss').Config} */
 export default {

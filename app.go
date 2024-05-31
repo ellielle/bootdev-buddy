@@ -127,7 +127,5 @@ func (a *App) UserData() (bootdevapi.UserData, error) {
 		return bootdevapi.UserData{}, nil
 	}
 
-	log.Print(userData)
-
 	return userData, nil
 }

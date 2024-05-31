@@ -13,36 +13,34 @@
 
 <main>
   <section>
-    {#if !loggedIn || typeof loggedIn != "boolean"}
-      <div class="menu-item btn-login">
-        <div>
-          You aren't currently logged in! You will only have limited
-          functionality.
-        </div>
-        <div>
-          Please
-          <a
-            href="https://www.boot.dev/cli/login?redirect=/cli/login"
-            target="_blank">click here</a
-          >
-          to login.
-        </div>
-        The login instructions can&nbsp;<a
-          href="https://github.com/ellielle/bootdev-buddy#logging-in"
-          target="_blank"
+    <div class="menu-item btn-login">
+      <div>
+        You aren't currently logged in! You will only have limited
+        functionality.
+      </div>
+      <div>
+        Please
+        <a
+          href="https://www.boot.dev/cli/login?redirect=/cli/login"
+          target="_blank">click here</a
         >
-          be found here</a
-        >.
+        to login.
       </div>
-      <div class="menu-item">
-        <input
-          type="text"
-          placeholder="Boot.Dev CLI Code"
-          bind:value={otpField}
-        />
-        <button on:click={loginUser}>Sign in</button>
-      </div>
-    {/if}
+      The login instructions can&nbsp;<a
+        href="https://github.com/ellielle/bootdev-buddy#logging-in"
+        target="_blank"
+      >
+        be found here</a
+      >.
+    </div>
+    <div class="menu-item">
+      <input
+        type="text"
+        placeholder="Boot.Dev CLI Code"
+        bind:value={otpField}
+      />
+      <button on:click={loginUser}>Sign in</button>
+    </div>
   </section>
 </main>
 
