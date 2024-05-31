@@ -16,8 +16,6 @@ func UserInfo(c cache.Cache, token string) (UserData, error) {
 		return UserData{}, errors.New("error getting user url")
 	}
 
-	log.Println("user url: ", userURL)
-
 	var user = UserData{}
 
 	// Check cache for a hit before requesting
@@ -30,8 +28,6 @@ func UserInfo(c cache.Cache, token string) (UserData, error) {
 		// return cache hit and exit early
 		return user, nil
 	}
-
-	log.Print("cache hit? :", cacheHit)
 
 	// Create a new request
 	req, err := http.NewRequest("GET", userURL, nil)
