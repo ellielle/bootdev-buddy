@@ -3,17 +3,20 @@ package bootdevapi
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 
 	"github.com/ellielle/bootdev-buddy/internal/cache"
 )
 
-func UserInfo(c cache.Cache) (UserData, error) {
+func UserInfo(c cache.Cache, token string) (UserData, error) {
 	// User information URL
 	userURL, err := BootDevAPIMap("user")
 	if err != nil {
 		return UserData{}, errors.New("error getting user url")
 	}
+
+	log.Println("user url: ", userURL)
 
 	var user = UserData{}
 
@@ -28,11 +31,15 @@ func UserInfo(c cache.Cache) (UserData, error) {
 		return user, nil
 	}
 
+	log.Print("cache hit? :", cacheHit)
+
 	// Create a new request
-	req, err := http.NewRequest("POST", userURL, nil)
+	req, err := http.NewRequest("GET", userURL, nil)
 	if err != nil {
-		return UserData{}, errors.New("error creating user request")
+		return UserData{}, err
 	}
+
+	req.Header.Set("Authorization", "Bearer "+token)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
