@@ -1,17 +1,19 @@
 <script>
   import Archmages from "../content/Archmages.svelte";
   import General from "../content/General.svelte";
-  import { Tab, TabGroup, TabAnchor } from "@skeletonlabs/skeleton";
+  import XPMeter from "../UI/XPMeter.svelte";
   import Stats from "../content/Stats.svelte";
+  import { Tab, TabGroup } from "@skeletonlabs/skeleton";
+  import { User } from "../../stores/user";
 
   /** @type number */
   let tabSet = 0;
-
   let tabs = ["General", "Courses", "Stats", "Boss Battle", "Archmages"];
 
-  // TODO: disable highlighting text on tabs, it disrupts clicking
-  // - give more margin at the top, in App.svelte
-  // - find out why it's not showing up at all
+  // Setting some convenience variables so it doesn't look ugly
+  let level = $User.userData.Level;
+  let currentXP = $User.userData.XPForLevel;
+  let levelXP = $User.userData.XPTotalForLevel;
 </script>
 
 <main>
@@ -25,7 +27,7 @@
         rounded=""
       >
         <span>{option}</span>
-      </tab>
+      </Tab>
     {/each}
 
     <!-- tab panels -->
@@ -46,5 +48,8 @@
         <Archmages />
       {/if}
     </svelte:fragment>
+    {#if $User.isLoggedIn}
+      <XPMeter {level} {currentXP} {levelXP} />
+    {/if}
   </TabGroup>
 </main>
