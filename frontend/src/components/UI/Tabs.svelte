@@ -2,6 +2,7 @@
   import Archmages from "../content/Archmages.svelte";
   import General from "../content/General.svelte";
   import XPMeter from "../UI/XPMeter.svelte";
+  import Avatar from "../UI/Avatar.svelte";
   import Stats from "../content/Stats.svelte";
   import { Tab, TabGroup } from "@skeletonlabs/skeleton";
   import { User } from "../../stores/user";
@@ -10,10 +11,12 @@
   let tabSet = 0;
   let tabs = ["General", "Courses", "Stats", "Boss Battle", "Archmages"];
 
-  // Setting some convenience variables so it doesn't look ugly
-  let level = $User.userData.Level;
-  let currentXP = $User.userData.XPForLevel;
-  let levelXP = $User.userData.XPTotalForLevel;
+  // Setting some convenience variables so it is easier to follow
+  $: level = $User.userData.Level;
+  $: currentXP = $User.userData.XPForLevel;
+  $: levelXP = $User.userData.XPTotalForLevel;
+  $: image = $User.userData.ProfileImageURL;
+  $: handle = $User.userData.Handle;
 </script>
 
 <main>
@@ -50,6 +53,7 @@
     </svelte:fragment>
     {#if $User.isLoggedIn}
       <XPMeter {level} {currentXP} {levelXP} />
+      <Avatar {image} {handle} />
     {/if}
   </TabGroup>
 </main>
