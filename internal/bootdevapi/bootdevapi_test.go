@@ -15,12 +15,14 @@ func TestMain(t *testing.T) {
 		input string
 		want  string
 	}{
-		"archmage": {input: "archmage", want: "https://api.boot.dev/v1/leaderboard_archmage"},
-		"stats":    {input: "stats", want: "https://api.boot.dev/v1/leaderboard_stats"},
-		"daily":    {input: "daily", want: "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"},
-		"karma":    {input: "karma", want: "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=30"},
-		"user":     {input: "user", want: "https://api.boot.dev/v1/users"},
-		"feed":     {input: "feed", want: "https://api.boot.dev/v1/lesson_completion_feed"},
+		"archmage":     {input: "archmage", want: "https://api.boot.dev/v1/leaderboard_archmage"},
+		"stats":        {input: "stats", want: "https://api.boot.dev/v1/leaderboard_stats"},
+		"daily":        {input: "daily", want: "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"},
+		"karma":        {input: "karma", want: "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=30"},
+		"user":         {input: "user", want: "https://api.boot.dev/v1/users"},
+		"achievements": {input: "achievements", want: "https://api.boot.dev/v1/users/achievements"},
+		"feed":         {input: "feed", want: "https://api.boot.dev/v1/lesson_completion_feed"},
+		"progress":     {input: "progress", want: "https://api.boot.dev/v1/courses_progress"},
 	}
 
 	for name, tc := range tests {
