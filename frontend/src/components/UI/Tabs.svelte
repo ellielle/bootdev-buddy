@@ -26,7 +26,7 @@
         bind:group={tabSet}
         name={option}
         value={index}
-        active="border-b-2 border-r-2 border-primary-400-500-token"
+        active="border-b-2 border-r-2 border-gray-500"
         rounded=""
       >
         <span>{option}</span>
@@ -51,9 +51,13 @@
         <Archmages />
       {/if}
     </svelte:fragment>
-    {#if $User.isLoggedIn}
-      <XPMeter {level} {currentXP} {levelXP} />
-      <Avatar {image} {handle} />
-    {/if}
+
+    <!-- user profile and level -->
+    <div style="display: flex;">
+      {#if $User.isLoggedIn}
+        <XPMeter {level} {currentXP} {levelXP} />
+        <Avatar {image} {handle} />
+      {/if}
+    </div>
   </TabGroup>
 </main>

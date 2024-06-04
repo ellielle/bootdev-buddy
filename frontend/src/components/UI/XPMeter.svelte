@@ -9,10 +9,12 @@
 
 <main>
   <section class="exp-bar">
-    {level}
-    <div class="xp-background-div flex">
+    <div id="level" class="text-primary-500">
+      {level}
+    </div>
+    <div class="xp-background-div flex bg-gray-700">
       <div
-        class="xp-foreground-div"
+        class="xp-foreground-div bg-primary-500"
         style="width: {levelXP / currentXP}%;"
       ></div>
     </div>
@@ -28,10 +30,9 @@
   .xp-background-div {
     width: 60px;
     height: 0.3rem;
-    background-color: lime;
     border-radius: 0.5rem;
   }
   .xp-foreground-div {
-    background-color: blue;
+    border-radius: 0.5rem;
   }
 </style>

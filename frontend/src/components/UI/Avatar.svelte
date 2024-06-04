@@ -5,7 +5,9 @@
 
 <main>
   <label for="img-profile">
-    <img src={image} alt={handle} id="img-profile" />
+    <a href="https://www.boot.dev/u/{handle}" target="_blank">
+      <img src={image} alt={handle} id="img-profile" />
+    </a>
   </label>
 </main>
 
