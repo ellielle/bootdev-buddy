@@ -14,35 +14,46 @@
 <main>
   <section>
     <div class="menu-item btn-login">
-      <div>
+      <p>
         You aren't currently logged in! You will only have limited
         functionality.
-      </div>
-      <div>
+      </p>
+      <p>
         Please
         <a
           href="https://www.boot.dev/cli/login?redirect=/cli/login"
-          target="_blank">click here</a
+          target="_blank"
+          class="text-primary-500">click here</a
         >
-        to login.
+        to get your one-time password.
+      </p>
+
+      <div>
+        The login instructions can&nbsp;<a
+          href="https://github.com/ellielle/bootdev-buddy#logging-in"
+          target="_blank"
+          class="text-primary-500"
+        >
+          be found here</a
+        >.
       </div>
-      The login instructions can&nbsp;<a
-        href="https://github.com/ellielle/bootdev-buddy#logging-in"
-        target="_blank"
-      >
-        be found here</a
-      >.
     </div>
-    <div class="menu-item">
+    <div class="menu-item mt-8">
       <input
         type="text"
         placeholder="Boot.Dev CLI Code"
         bind:value={otpField}
       />
-      <button on:click={loginUser}>Sign in</button>
+      <button
+        class="text-primary-500 border rounded px-2 py-1.5"
+        on:click={loginUser}>Sign in</button
+      >
     </div>
   </section>
 </main>
 
 <style>
+  .menu-item > p {
+    margin-bottom: 0.5rem;
+  }
 </style>
