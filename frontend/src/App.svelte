@@ -6,13 +6,6 @@
   import Tabs from "./components/UI/Tabs.svelte";
   import { User } from "./stores/user.js";
 
-  // Holds all Archmages and their publicly available data
-  let archmages = [];
-  // Holds the top 30 leaderboard users
-  let leaders = [];
-
-  // Information about the user
-
   // Attempt to log the user on mount by refreshing their
   // access token
   onMount(() => {
