@@ -12,12 +12,20 @@ Boot.dev uses a one-time password system for logging in via it's CLI. Using this
 
 Access tokens are only valid for 60 minutes. Once invalid, the app will attempt to renew the token. If it fails, you may need get another OTP and sign in again. If that fails, restart the app.
 
+> This app creates a file in its working directory to store your current tokens called `.bootdevbuddy.json`. If you have issues with sign-in or are removing the app, delete this file.
+
+1. In the app, click on the text that says to `click here` to get your one-time password.
+
+2. In the new tab that opens, click the 📋(clipboard) icon to copy your OTP
+
+3. Paste the token into the awaiting box, and click the `Sign in` button.
+   
 ## Planned Features
 
 - [x] Sign in using Boot.dev's authentication
 - [x] In-memory cache of requests made
-- [ ] Not in-memory cache of images
 - [x] Automatic sign-in on load
+- [ ] Not in-memory cache of images
 - [ ] Fancier and more formatted stats
 - [ ] View other mages' profiles by click
 - [ ] View a tally of lessons completed, and see how many of each course are done
