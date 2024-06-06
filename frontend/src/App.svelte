@@ -19,14 +19,13 @@
   <!-- insert Tab component. The rest of the content is rendered via Tabs -->
   {#await userPromise}
     <p>Loading...</p>
-  {:then result}
-    {($User.userData = result)}
+  {:then _}
     <Tabs />
     <div class="container-buddy">
       <div class="menu-container">
         <!-- show user login button if automatic sign in fails -->
         {#if !$User.isLoggedIn || typeof $User.isLoggedIn != "boolean"}
-          <Login loggedIn={$User.isLoggedIn} />
+          <Login bind:loggedIn={$User.isLoggedIn} />
         {/if}
       </div>
     </div>
@@ -36,7 +35,7 @@
 <style>
   .container-buddy {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     grid-auto-flow: row;
   }
 

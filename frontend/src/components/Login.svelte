@@ -43,6 +43,7 @@
         type="text"
         placeholder="Boot.Dev CLI Code"
         bind:value={otpField}
+        style="color:black"
       />
       <button
         class="text-primary-500 border rounded px-2 py-1.5"
