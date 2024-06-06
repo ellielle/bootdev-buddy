@@ -1,5 +1,6 @@
 <script>
   import Archmages from "../content/Archmages.svelte";
+  import BossBattle from "../content/BossBattle.svelte";
   import General from "../content/General.svelte";
   import XPMeter from "../UI/XPMeter.svelte";
   import Avatar from "../UI/Avatar.svelte";
@@ -45,7 +46,7 @@
         <Stats />
       {/if}
       {#if tabSet === 3}
-        <!-- <BossBattle /> -->
+        <BossBattle />
       {/if}
       {#if tabSet === 4}
         <Archmages />

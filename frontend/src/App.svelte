@@ -6,39 +6,36 @@
   import Tabs from "./components/UI/Tabs.svelte";
   import { User } from "./stores/user.js";
 
-  // Holds all Archmages and their publicly available data
-  let archmages = [];
-  // Holds the top 30 leaderboard users
-  let leaders = [];
+  let userPromise = UserData().then((result) => ($User.userData = result));
 
-  // Information about the user
-
-  // Attempt to log the user on mount by refreshing their
-  // access token
   onMount(() => {
+    // Attempt to log the user on mount by refreshing their
+    // access token
     LoginUserWithToken().then((result) => ($User.isLoggedIn = result));
-    UserData().then((result) => ($User.userData = result));
   });
 </script>
 
 <main>
   <!-- insert Tab component. The rest of the content is rendered via Tabs -->
-  <Tabs />
-  <div class="container-buddy">
-    <div class="menu-container">
-      <!-- show user login button if automatic sign in fails -->
-      {#if !$User.isLoggedIn || typeof $User.isLoggedIn != "boolean"}
-        <Login loggedIn={$User.isLoggedIn} />
-      {/if}
+  {#await userPromise}
+    <p>Loading...</p>
+  {:then _}
+    <Tabs />
+    <div class="container-buddy">
+      <div class="menu-container">
+        <!-- show user login button if automatic sign in fails -->
+        {#if !$User.isLoggedIn || typeof $User.isLoggedIn != "boolean"}
+          <Login bind:loggedIn={$User.isLoggedIn} />
+        {/if}
+      </div>
     </div>
-  </div>
-  <div class="container-data"></div>
+  {/await}
 </main>
 
 <style>
   .container-buddy {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     grid-auto-flow: row;
   }
 

@@ -22,6 +22,8 @@ func BootDevAPIMap(URL string) (string, error) {
 	api["achievements"] = "https://api.boot.dev/v1/users/achievements"
 	// course progress endpoint
 	api["progress"] = "https://api.boot.dev/v1/courses_progress"
+	// boss progress, XP bonus, and user's XP contribution
+	api["boss"] = "https://api.boot.dev/v1/boss_events_progress"
 	if _, ok := api[URL]; !ok {
 		return "", errors.New("invalid api")
 

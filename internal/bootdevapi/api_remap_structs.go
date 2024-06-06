@@ -113,3 +113,41 @@ type CourseData struct {
 	UnlockAtVal int       `json:"UnlockAtVal"`
 	UnlockedAt  time.Time `json:"UnlockedAt"`
 }
+
+// Boss Battle information
+type BossBattle struct {
+	Event struct {
+		Boss struct {
+			UUID         string `json:"UUID"`
+			Name         string `json:"Name"`
+			Description  string `json:"Description"`
+			LoreSlug     string `json:"LoreSlug"`
+			ImageURL     string `json:"ImageURL"`
+			ThumbnailURL string `json:"ThumbnailURL"`
+			Rewards      []struct {
+				UUID             string `json:"UUID"`
+				Type             string `json:"Type"`
+				UnlockedAt       int    `json:"UnlockedAt"`
+				BossRewardDataXP struct {
+					Amount int `json:"Amount"`
+				} `json:"BossRewardDataXP"`
+				BossRewardDataGems any `json:"BossRewardDataGems"`
+				BossRewardChest    any `json:"BossRewardChest"`
+			} `json:"Rewards"`
+			HealthPoints int `json:"HealthPoints"`
+		} `json:"Boss"`
+		UUID               string     `json:"UUID"`
+		CreatedAt          time.Time  `json:"CreatedAt"`
+		UpdatedAt          time.Time  `json:"UpdatedAt"`
+		StartsAt           time.Time  `json:"StartsAt"`
+		ExpiresAt          time.Time  `json:"ExpiresAt"`
+		AchievementsSentAt *time.Time `json:"AchievementsSentAt"`
+		BossUUID           string     `json:"BossUUID"`
+		AnnouncementSentAt time.Time  `json:"AnnouncementSentAt"`
+		DefeatedAt         time.Time  `json:"DefeatedAt"`
+	} `json:"Event"`
+	XPBonus        int `json:"XPBonus"`
+	XPTotal        int `json:"XPTotal"`
+	XPUser         int `json:"XPUser"`
+	NumActiveUsers int `json:"NumActiveUsers"`
+}
