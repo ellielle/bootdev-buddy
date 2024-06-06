@@ -4,10 +4,14 @@
   // Empty field initially for the one-time password
   let otpField = "";
 
+  let error = "";
+
   // loginUser takes a user's OTP, trades it for an access token which
   // is saved for futher use, and marks the user as logged in
   function loginUser() {
-    LoginUserWithOTP(otpField).then((result) => (loggedIn = result));
+    LoginUserWithOTP(otpField)
+      .then((result) => (loggedIn = result))
+      .catch(() => (error = "Invalid or expired OTP"));
   }
 </script>
 
@@ -43,6 +47,7 @@
         type="text"
         placeholder="Boot.Dev CLI Code"
         bind:value={otpField}
+        style="color: black"
       />
       <button
         class="text-primary-500 border rounded px-2 py-1.5"
@@ -50,10 +55,18 @@
       >
     </div>
   </section>
+  {#if error !== ""}
+    <section>
+      <div class="error">{error}</div>
+    </section>
+  {/if}
 </main>
 
 <style>
   .menu-item > p {
     margin-bottom: 0.5rem;
+  }
+  .error {
+    color: red;
   }
 </style>
