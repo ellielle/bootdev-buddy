@@ -1,7 +1,9 @@
 <script>
   import { User } from "../../stores/user";
+  $: username = $User.userData.DiscordUserHandle;
 </script>
 
 <main>
-  Welcome to Boot.dev Buddy, {$User.userData.DiscordUserHandle}!
+  {console.log($User)}
+  Welcome to Boot.dev Buddy, {username}!
 </main>

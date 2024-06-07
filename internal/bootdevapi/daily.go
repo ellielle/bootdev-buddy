@@ -11,7 +11,6 @@ import (
 // DailyStats returns a slice of the top 30 learners
 // from Boot.Dev's leaderboard page.
 // As this won't change often, the refresh time on this can be low.
-// TODO: The list will be paginated to only show 10
 func GetDailyStats(c cache.Cache) ([]LeaderboardUser, error) {
 	// daily stats leaderboard URL
 	dailyStatsLB, err := BootDevAPIMap("daily")

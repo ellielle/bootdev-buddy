@@ -23,6 +23,7 @@ func TestMain(t *testing.T) {
 		"achievements": {input: "achievements", want: "https://api.boot.dev/v1/users/achievements"},
 		"feed":         {input: "feed", want: "https://api.boot.dev/v1/lesson_completion_feed"},
 		"progress":     {input: "progress", want: "https://api.boot.dev/v1/courses_progress"},
+		"boss":         {input: "boss", want: "https://api.boot.dev/v1/boss_events_progress"},
 	}
 
 	for name, tc := range tests {
