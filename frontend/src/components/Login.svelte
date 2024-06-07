@@ -18,10 +18,7 @@
 <main>
   <section>
     <div class="menu-item btn-login">
-      <p>
-        You aren't currently logged in! You will only have limited
-        functionality.
-      </p>
+      <p>You aren't currently logged in!</p>
       <p>
         Please
         <a

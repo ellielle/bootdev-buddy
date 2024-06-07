@@ -6,31 +6,33 @@
   import Tabs from "./components/UI/Tabs.svelte";
   import { User } from "./stores/user.js";
 
-  let userPromise = UserData().then((result) => ($User.userData = result));
+  $: loggedIn = $User.isLoggedIn;
 
   onMount(() => {
     // Attempt to log the user on mount by refreshing their
     // access token
+    // FIXME: signing in isn't reactive and doesn't change pages
+    // the issue seems to be frontend related. Data is fine on backend
+    // but comes empty to frontend
+    // * Sign in works fine from file though
     LoginUserWithToken().then((result) => ($User.isLoggedIn = result));
+    UserData().then((result) => ($User.userData = result));
+    console.log("userdata", $User.userData);
   });
 </script>
 
 <main>
-  <!-- insert Tab component. The rest of the content is rendered via Tabs -->
-  {#await userPromise}
-    <p>Loading...</p>
-  {:then result}
-    {($User.userData = result)}
+  {#if loggedIn}
     <Tabs />
+  {/if}
+  {#if !$User.isLoggedIn || typeof $User.isLoggedIn != "boolean"}
     <div class="container-buddy">
       <div class="menu-container">
         <!-- show user login button if automatic sign in fails -->
-        {#if !$User.isLoggedIn || typeof $User.isLoggedIn != "boolean"}
-          <Login loggedIn={$User.isLoggedIn} />
-        {/if}
+        <Login loggedIn={$User.isLoggedIn} />
       </div>
     </div>
-  {/await}
+  {/if}
 </main>
 
 <style>
