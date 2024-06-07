@@ -19,7 +19,7 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 2. In the new tab that opens, click the 📋(clipboard) icon to copy your OTP
 
 3. Paste the token into the awaiting box, and click the `Sign in` button.
-   
+
 ## Planned Features
 
 - [x] Sign in using Boot.dev's authentication
@@ -31,7 +31,6 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 - [ ] View a tally of lessons completed, and see how many of each course are done
 - [ ] Buff timers
 - [ ] Boss event monitoring / participation
-- [ ] Pomodoro timer (might as well if it's going to be open!)
 - [ ] More(?)
 
 ## Live Development
