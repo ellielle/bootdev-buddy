@@ -38,7 +38,7 @@
 <style>
   .container-buddy {
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 1fr 1fr;
     grid-auto-flow: row;
   }
 
