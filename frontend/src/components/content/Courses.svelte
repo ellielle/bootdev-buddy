@@ -1,9 +1,6 @@
 <script>
   import { onMount } from "svelte";
   import { Courses } from "../../../wailsjs/go/main/App.js";
-  let courses = {};
-  let init = false;
-
   const COURSES_IN_ORDER = [
     { UUID: "f9a25dfb-3e00-4727-ac78-36de82315355", slug: "learn-python" },
     {
@@ -73,33 +70,38 @@
       slug: "learn-advanced-algorithms",
     },
   ];
+  let courses = [];
+  let sortedCourses = [];
+  let init = false;
 
-  /**
-   *
-   * @param {string} uuid
-   */
-  function getCourseName(uuid) {
-    let test = courses.filter((uuid) => courses.UUID === uuid);
-    console.log(test);
-    //FIXME: finish, also get rid of warning
-
-    // FIXME: set init to true after manipulating data
+  // Sort courses by how they appear on the website
+  // once the courses array is populated
+  // Then set init to true to swap from loading state
+  $: if (courses.length > 0) {
+    for (let i = 0; i < COURSES_IN_ORDER.length; i++) {
+      for (let j = 0; j < courses.length; j++) {
+        if (COURSES_IN_ORDER[i].UUID === courses[j].UUID) {
+          // For svelte reactivity...look at documentation for alternative
+          sortedCourses.push(courses[j]);
+        }
+      }
+    }
     init = true;
   }
 
   onMount(() => {
-    Courses().then((result) => (courses = result));
+    Courses().then((result) => (courses = [...result]));
   });
 </script>
 
 <main>
   {#if !init}
     Loading...
-    {console.log("if: ", courses)}
-  {/if}
-  {#if init}
-    {#each COURSES_IN_ORDER as course (course.UUID)}
-      <p>{getCourseName(course.UUID)}</p>
+  {:else}
+    {#each sortedCourses as course}
+      <div>
+        {course.Title}
+      </div>
     {/each}
   {/if}
 </main>

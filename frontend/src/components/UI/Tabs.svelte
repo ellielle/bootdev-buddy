@@ -5,6 +5,7 @@
   import XPMeter from "../UI/XPMeter.svelte";
   import Avatar from "../UI/Avatar.svelte";
   import Stats from "../content/Stats.svelte";
+  import Courses from "../content/Courses.svelte";
   import { Tab, TabGroup } from "@skeletonlabs/skeleton";
   import { User } from "../../stores/user";
 
@@ -40,7 +41,7 @@
         <General />
       {/if}
       {#if tabSet === 1}
-        <!-- <Courses /> -->
+        <Courses />
       {/if}
       {#if tabSet === 2}
         <Stats />

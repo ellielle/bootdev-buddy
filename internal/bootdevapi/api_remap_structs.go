@@ -102,18 +102,6 @@ type UserData struct {
 	GithubSynced            bool      `json:"GithubSynced"`
 }
 
-// CourseData holds information about all courses and the user's progress in them
-type CourseData struct {
-	UUID        string    `json:"UUID"`
-	Title       string    `json:"Title"`
-	Description string    `json:"Description"`
-	ImageURL    string    `json:"ImageURL"`
-	Category    string    `json:"Category"`
-	Order       int       `json:"Order"`
-	UnlockAtVal int       `json:"UnlockAtVal"`
-	UnlockedAt  time.Time `json:"UnlockedAt"`
-}
-
 // Boss Battle information
 type BossBattle struct {
 	Event struct {
