@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { Courses } from "../../../wailsjs/go/main/App.js";
+  import { Courses, CoursesProgress } from "../../../wailsjs/go/main/App.js";
   const COURSES_IN_ORDER = [
     { UUID: "f9a25dfb-3e00-4727-ac78-36de82315355", slug: "learn-python" },
     {
@@ -73,6 +73,7 @@
   let courses = [];
   let sortedCourses = [];
   let init = false;
+  let progress = {};
 
   // Sort courses by how they appear on the website
   // once the courses array is populated
@@ -86,11 +87,17 @@
         }
       }
     }
+  }
+
+  $: if (Object.keys(progress).length > 0) {
     init = true;
+
+    console.log("progress: ", progress.Progress);
   }
 
   onMount(() => {
     Courses().then((result) => (courses = [...result]));
+    CoursesProgress().then((result) => (progress = result));
   });
 </script>
 
@@ -98,9 +105,16 @@
   {#if !init}
     Loading...
   {:else}
-    {#each sortedCourses as course}
+    {#each sortedCourses as course (course.UUID)}
       <div>
-        {course.Title}
+        <a
+          href="https://www.boot.dev/lessons/{course.slug}"
+          class="text-primary-500"
+        >
+          {course.Title}:
+        </a>
+        {progress.Progress[course.UUID].NumDone}/{progress.Progress[course.UUID]
+          .NumMax}
       </div>
     {/each}
   {/if}

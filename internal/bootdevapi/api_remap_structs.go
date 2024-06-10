@@ -190,12 +190,12 @@ type Course struct {
 
 // User's course progress. Courses can be referenced by UUID
 type CourseProgress struct {
-	LastViewedCourseUUID string `json:"LastViewedCourseUUID"`
-	Progress             struct {
-		UUID struct {
-			NumDone              int    `json:"NumDone"`
-			NumMax               int    `json:"NumMax"`
-			LastViewedLessonUUID string `json:"LastViewedLessonUUID"`
-		} `json:"UUID"`
-	} `json:"Progress"`
+	LastViewedCourseUUID string                    `json:"LastViewedCourseUUID"`
+	Progress             map[string]ProgressDetail `json:"Progress"`
+}
+
+type ProgressDetail struct {
+	NumDone              int    `json:"NumDone"`
+	NumMax               int    `json:"NumMax"`
+	LastViewedLessonUUID string `json:"LastViewedLessonUUID"`
 }

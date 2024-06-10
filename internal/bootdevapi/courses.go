@@ -3,6 +3,7 @@ package bootdevapi
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"net/http"
 
 	"github.com/ellielle/bootdev-buddy/internal/cache"
@@ -56,4 +57,56 @@ func CourseList(c cache.Cache, token string) ([]Course, error) {
 	c.Add(coursesURL, &cs)
 
 	return courses, nil
+}
+
+func CoursesProgress(c cache.Cache, token string) (CourseProgress, error) {
+	progressURL, err := BootDevAPIMap("courses_progress")
+	if err != nil {
+		return CourseProgress{}, err
+	}
+
+	var progress CourseProgress
+
+	// check cache for a hit
+	cacheHit, ok := c.Get(progressURL)
+	if ok {
+		log.Print("cache hit on progress")
+		err := json.Unmarshal([]byte(cacheHit), &progress)
+		if err != nil {
+			return CourseProgress{}, err
+		}
+
+		return progress, nil
+	}
+
+	// create a new http request
+	req, err := http.NewRequest("GET", progressURL, nil)
+	if err != nil {
+		return CourseProgress{}, err
+	}
+
+	req.Header.Set("Authorization", "Bearer "+token)
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return CourseProgress{}, err
+	}
+	defer resp.Body.Close()
+
+	// decode json response into progress if req succeeded
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(&progress)
+	if err != nil {
+		return CourseProgress{}, err
+	}
+
+	// Marshal data into JSON to be written to cache
+	prog, err := json.Marshal(progress)
+	if err != nil {
+		return CourseProgress{}, err
+	}
+
+	c.Add(progressURL, &prog)
+
+	return progress, nil
 }
