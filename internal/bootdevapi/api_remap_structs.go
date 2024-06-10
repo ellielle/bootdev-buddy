@@ -102,18 +102,6 @@ type UserData struct {
 	GithubSynced            bool      `json:"GithubSynced"`
 }
 
-// CourseData holds information about all courses and the user's progress in them
-type CourseData struct {
-	UUID        string    `json:"UUID"`
-	Title       string    `json:"Title"`
-	Description string    `json:"Description"`
-	ImageURL    string    `json:"ImageURL"`
-	Category    string    `json:"Category"`
-	Order       int       `json:"Order"`
-	UnlockAtVal int       `json:"UnlockAtVal"`
-	UnlockedAt  time.Time `json:"UnlockedAt"`
-}
-
 // Boss Battle information
 type BossBattle struct {
 	Event struct {
@@ -150,4 +138,64 @@ type BossBattle struct {
 	XPTotal        int `json:"XPTotal"`
 	XPUser         int `json:"XPUser"`
 	NumActiveUsers int `json:"NumActiveUsers"`
+}
+
+// Full course response from courses endpoint
+type Course struct {
+	UUID                         string     `json:"UUID"`
+	ArchivedAt                   *time.Time `json:"ArchivedAt"`
+	Slug                         string     `json:"Slug"`
+	Title                        string     `json:"Title"`
+	ShortDescription             string     `json:"ShortDescription"`
+	Description                  string     `json:"Description"`
+	ImageURL                     string     `json:"ImageURL"`
+	ThumbnailURL                 string     `json:"ThumbnailURL"`
+	Difficulty                   float64    `json:"Difficulty"`
+	PrerequisiteCourseUUIDS      any        `json:"PrerequisiteCourseUUIDS"`
+	EstimatedCompletionTimeHours int        `json:"EstimatedCompletionTimeHours"`
+	TypeDescription              string     `json:"TypeDescription"`
+	LastUpdated                  string     `json:"LastUpdated"`
+	SlugAliases                  []string   `json:"SlugAliases"`
+	AuthorUUIDs                  []string   `json:"AuthorUUIDs"`
+	MaintainerUUIDs              []string   `json:"MaintainerUUIDs"`
+	Alternatives                 struct {
+	} `json:"Alternatives,omitempty"`
+	Draft              bool `json:"Draft"`
+	NumRequiredLessons int  `json:"NumRequiredLessons"`
+	NumOptionalLessons int  `json:"NumOptionalLessons"`
+	Chapters           []struct {
+		UUID            string `json:"UUID"`
+		Slug            string `json:"Slug"`
+		Title           string `json:"Title"`
+		Description     string `json:"Description"`
+		RequiredLessons []struct {
+			UUID           string `json:"UUID"`
+			Slug           string `json:"Slug"`
+			Type           string `json:"Type"`
+			CourseUUID     string `json:"CourseUUID"`
+			CourseTitle    string `json:"CourseTitle"`
+			CourseImageURL string `json:"CourseImageURL"`
+			ChapterUUID    string `json:"ChapterUUID"`
+			IsFree         bool   `json:"IsFree"`
+			LastMod        string `json:"LastMod"`
+			CompletionType string `json:"CompletionType"`
+			Title          string `json:"Title"`
+		} `json:"RequiredLessons"`
+		OptionalLessons    []any  `json:"OptionalLessons"`
+		NumRequiredLessons int    `json:"NumRequiredLessons"`
+		NumOptionalLessons int    `json:"NumOptionalLessons"`
+		CourseUUID         string `json:"CourseUUID"`
+	} `json:"Chapters"`
+}
+
+// User's course progress. Courses can be referenced by UUID
+type CourseProgress struct {
+	LastViewedCourseUUID string                    `json:"LastViewedCourseUUID"`
+	Progress             map[string]ProgressDetail `json:"Progress"`
+}
+
+type ProgressDetail struct {
+	NumDone              int    `json:"NumDone"`
+	NumMax               int    `json:"NumMax"`
+	LastViewedLessonUUID string `json:"LastViewedLessonUUID"`
 }

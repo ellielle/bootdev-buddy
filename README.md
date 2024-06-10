@@ -19,19 +19,17 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 2. In the new tab that opens, click the 📋(clipboard) icon to copy your OTP
 
 3. Paste the token into the awaiting box, and click the `Sign in` button.
-   
+
 ## Planned Features
 
 - [x] Sign in using Boot.dev's authentication
 - [x] In-memory cache of requests made
 - [x] Automatic sign-in on load
-- [ ] Not in-memory cache of images
+- [-] View a tally of lessons completed, and see how many of each course are done
 - [ ] Fancier and more formatted stats
-- [ ] View other mages' profiles by click
-- [ ] View a tally of lessons completed, and see how many of each course are done
+- [ ] View other mages' profiles on leaderboard by click
 - [ ] Buff timers
 - [ ] Boss event monitoring / participation
-- [ ] Pomodoro timer (might as well if it's going to be open!)
 - [ ] More(?)
 
 ## Live Development
