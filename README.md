@@ -4,7 +4,17 @@
 
 This app provides a GUI to collect and show data from [Boot.dev](https://boot.dev/). It can be used as a companion app while doing coursework to monitor on-going events, their buffs, and much more.
 
-Note: This project isn't affiliated with Boot.dev in any way. I'm just a student that wanted to make something I thought was cool.
+<details>
+	
+<summary>	
+Early UI during a boss fight
+</summary
+	
+![2024-06-10_16-16-26](https://github.com/ellielle/bootdev-buddy/assets/40385743/42309740-4705-4183-8a3d-8d20a33d7297)
+ 
+</details>
+
+> Note: This project isn't affiliated with Boot.dev in any way. I'm just a student that wanted to make something I thought was cool.
 
 ## Logging In
 
@@ -31,6 +41,7 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 - [ ] Buff timers
 - [ ] Boss event monitoring / participation
 - [ ] More(?)
+
 
 ## Live Development
 
