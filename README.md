@@ -10,7 +10,7 @@ This app provides a GUI to collect and show data from [Boot.dev](https://boot.de
 Early UI during a boss fight
 </summary
 	
-![2024-06-10_16-16-26](https://github.com/ellielle/bootdev-buddy/assets/40385743/42309740-4705-4183-8a3d-8d20a33d7297)
+![2024-06-11_11-11-02](https://github.com/ellielle/bootdev-buddy/assets/40385743/4d7a7f83-5c9d-43d0-b2f6-d9bd83e429a6)
  
 </details>
 
