@@ -6,6 +6,12 @@
 
   let error = "";
 
+  // handles launching URLs outside of the app
+  function openBrowserLink(url) {
+    // @ts-ignore
+    window.runtime.BrowserOpenURL(url);
+  }
+
   // loginUser takes a user's OTP, trades it for an access token which
   // is saved for futher use, and marks the user as logged in
   function loginUser() {
@@ -24,7 +30,13 @@
         <a
           href="https://www.boot.dev/cli/login?redirect=/cli/login"
           target="_blank"
-          class="text-primary-500">click here</a
+          class="text-primary-500"
+          on:click={(e) => {
+            e.preventDefault();
+            openBrowserLink(
+              "https://www.boot.dev/cli/login?redirect=/cli/login",
+            );
+          }}>click here</a
         >
         to get your one-time password.
       </p>
@@ -34,6 +46,12 @@
           href="https://github.com/ellielle/bootdev-buddy#logging-in"
           target="_blank"
           class="text-primary-500"
+          on:click={(e) => {
+            e.preventDefault();
+            openBrowserLink(
+              "https://github.com/ellielle/bootdev-buddy#logging-in",
+            );
+          }}
         >
           be found here</a
         >.
