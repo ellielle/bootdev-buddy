@@ -4,6 +4,5 @@
 </script>
 
 <main>
-  {console.log($User)}
   Welcome to Boot.dev Buddy, {username}!
 </main>
