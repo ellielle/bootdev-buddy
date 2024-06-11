@@ -15,7 +15,7 @@
     <div class="xp-background-div flex bg-gray-700">
       <div
         class="xp-foreground-div bg-primary-500"
-        style="width: {levelXP / currentXP}%;"
+        style="width: {(currentXP / levelXP) * 100}%;"
       ></div>
     </div>
   </section>

@@ -10,17 +10,19 @@
   {#await promise}
     <p>Loading...</p>
   {:then battle}
-    <!-- FIXME: fix condition that checks for a boss defeat || new Date(battle.Event.DefeatedAt) < new Date(Date.now())-->
+    <!-- FIXME: fix condition that checks for a boss defeat -->
     {#if new Date(battle.Event.ExpiresAt) < new Date(Date.now())}
       <!-- boss is inactive, show stats -->
-      <a
-        href="https://www.boot.dev/lore/{battle.Event.Boss.LoreSlug}"
-        class="text-primary-500"
-        target="_blank"
-      >
-        {battle.Event.Boss.Name}
-      </a>
-      has been defeated!
+      <div>
+        <a
+          href="https://www.boot.dev/lore/{battle.Event.Boss.LoreSlug}"
+          class="text-primary-500"
+          target="_blank"
+        >
+          {battle.Event.Boss.Name}
+        </a>
+        has been defeated!
+      </div>
       <p>You gained {battle.XPUser} XP during the fight.</p>
       <p>
         The final blow was dealt on {new Date(
