@@ -79,6 +79,7 @@
   // once the courses array is populated
   // Then set init to true to swap from loading state
   $: if (courses.length > 0) {
+    init = false;
     for (let i = 0; i < COURSES_IN_ORDER.length; i++) {
       for (let j = 0; j < courses.length; j++) {
         if (COURSES_IN_ORDER[i].UUID === courses[j].UUID) {
@@ -114,11 +115,14 @@
       <div>
         <!-- TODO: cursor change on hover fix it -->
         <a
-          href="https://www.boot.dev/lessons/{course.slug}"
+          href="https://www.boot.dev/lessons/{progress.Progress[course.UUID]
+            .LastViewedLessonUUID}"
           class="text-primary-500 cursor-pointer"
           on:click={(e) => {
             e.preventDefault();
-            openBrowserLink(`https://www.boot.dev/learn/${course.Slug}`);
+            openBrowserLink(
+              `https://www.boot.dev/lessons/${progress.Progress[course.UUID].LastViewedLessonUUID}`,
+            );
           }}
         >
           {course.Title}:
