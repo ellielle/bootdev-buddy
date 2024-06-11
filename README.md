@@ -35,11 +35,13 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 - [x] Sign in using Boot.dev's authentication
 - [x] In-memory cache of requests made
 - [x] Automatic sign-in on load
-- [ ] View a tally of lessons completed, and see how many of each course are done
+- [x] Uses Boot.dev's API to allow you to click any lesson and go back to where you left off
+- [x] View a tally of lessons completed, and see how many of each course are done
+- [x] Boss event monitoring / participation
 - [ ] Fancier and more formatted stats
 - [ ] View other mages' profiles on leaderboard by click
 - [ ] Buff timers
-- [ ] Boss event monitoring / participation
+- [ ] Update stats on a short delay (10s)
 - [ ] More(?)
 
 
