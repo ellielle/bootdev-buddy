@@ -39,3 +39,12 @@ func (a *App) LoginUserWithToken() (bool, error) {
 
 	return true, nil
 }
+
+func (a *App) LogoutUser() error {
+	err := login.LogoutUser()
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

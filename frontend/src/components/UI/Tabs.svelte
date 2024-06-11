@@ -8,17 +8,19 @@
   import Courses from "../content/Courses.svelte";
   import { Tab, TabGroup } from "@skeletonlabs/skeleton";
   import { User } from "../../stores/user";
+  import { LogoutUser } from "../../../wailsjs/go/main/App.js";
 
   /** @type number */
   let tabSet = 0;
   let tabs = ["General", "Courses", "Stats", "Boss Battle", "Archmages"];
+  let result;
 
-  // Setting some convenience variables so it is easier to follow
-  $: level = $User.userData.Level;
-  $: currentXP = $User.userData.XPForLevel;
-  $: levelXP = $User.userData.XPTotalForLevel;
-  $: image = $User.userData.ProfileImageURL;
-  $: handle = $User.userData.Handle;
+  function handleSignout() {
+    LogoutUser().then((res) => (result = res));
+    $User.isLoggedIn = false;
+    $User.isArchmage = false;
+    $User.userData = {};
+  }
 </script>
 
 <main>
@@ -57,9 +59,19 @@
     <!-- user profile and level -->
     <div style="display: flex;">
       {#if $User.isLoggedIn}
-        <XPMeter {level} {currentXP} {levelXP} />
-        <Avatar {image} {handle} />
+        <XPMeter
+          bind:level={$User.userData.Level}
+          bind:currentXP={$User.userData.XPForLevel}
+          levelXP={$User.userData.XPTotalForLevel}
+        />
+        <Avatar
+          bind:image={$User.userData.ProfileImageURL}
+          bind:handle={$User.userData.Handle}
+        />
       {/if}
     </div>
+
+    <!-- sign out button -->
+    <button on:click={handleSignout}>Sign out</button>
   </TabGroup>
 </main>

@@ -128,6 +128,25 @@ func ReadTokens() (*BDToken, error) {
 	return tokens, err
 }
 
+func LogoutUser() error {
+	err := deleteKeys()
+
+	return err
+}
+
+// deleteKeys deletes the file, preventing logging in
+// automatically on launch
+func deleteKeys() error {
+	_, err := os.Stat(LOCAL_KEYS)
+
+	if os.IsNotExist(err) {
+		return nil
+	}
+
+	err = os.Remove(LOCAL_KEYS)
+	return err
+}
+
 // writeKeys takes the Boot.Dev access_token and
 // refresh_token and saves them locally.
 func writeKeys(tokens *BDToken) error {
