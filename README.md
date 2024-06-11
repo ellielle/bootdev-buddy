@@ -30,6 +30,8 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 
 3. Paste the token into the awaiting box, and click the `Sign in` button.
 
+4. BUG: If you don't see your account after logging in, close the app and re-open it.
+
 ## Planned Features
 
 - [x] Sign in using Boot.dev's authentication
@@ -41,13 +43,13 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 - [ ] Fancier and more formatted stats
 - [ ] View other mages' profiles on leaderboard by click
 - [ ] Buff timers
-- [ ] Update stats on a short delay (10s)
+- [ ] Update stats on a delay
 - [ ] More(?)
 
 
 ## Live Development
 
-If you want to use dev mode in the browser and not with a GUI app, set `StartHidden` to `true` in `main.go`.
+If you want to use dev mode in the browser and not with a GUI app, set `StartHidden` to `true` in `main.go`. Highly recommended.
 
 ```go
 func main() {
