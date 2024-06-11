@@ -96,6 +96,7 @@
     console.log("progress: ", progress.Progress);
   }
 
+  // handles launching URLs outside of the app
   function openBrowserLink(url) {
     // @ts-ignore
     window.runtime.BrowserOpenURL(url);
