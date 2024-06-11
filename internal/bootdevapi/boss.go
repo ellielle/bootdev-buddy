@@ -11,7 +11,6 @@ import (
 // BossBattleStats retrieves stats from the current / most recent boss
 // battle happening. Since this is rapidly updating in real time, the
 // cache isn't checked before requesting new data.
-// It does save to the cache, however, in case it's needed
 func BossBattleStats(c cache.Cache, token string) (BossBattle, error) {
 	// boss battle leaderboard URL
 	bossBattleURL, err := BootDevAPIMap("boss")
@@ -42,15 +41,6 @@ func BossBattleStats(c cache.Cache, token string) (BossBattle, error) {
 	if err != nil {
 		return BossBattle{}, err
 	}
-
-	bossData, err := json.Marshal(resp.Body)
-	if err != nil {
-		return BossBattle{}, err
-	}
-
-	// add to cache just in case the data is needed sooner than it is
-	// fetched again.
-	c.Add(bossBattleURL, &bossData)
 
 	return boss, nil
 }

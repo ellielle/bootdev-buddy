@@ -95,6 +95,11 @@
     console.log("progress: ", progress.Progress);
   }
 
+  function openBrowserLink(url) {
+    // @ts-ignore
+    window.runtime.BrowserOpenURL(url);
+  }
+
   onMount(() => {
     Courses().then((result) => (courses = [...result]));
     CoursesProgress().then((result) => (progress = result));
@@ -107,9 +112,14 @@
   {:else}
     {#each sortedCourses as course (course.UUID)}
       <div>
+        <!-- TODO: cursor change on hover fix it -->
         <a
           href="https://www.boot.dev/lessons/{course.slug}"
-          class="text-primary-500"
+          class="text-primary-500 cursor-pointer"
+          on:click={(e) => {
+            e.preventDefault();
+            openBrowserLink(`https://www.boot.dev/learn/${course.Slug}`);
+          }}
         >
           {course.Title}:
         </a>

@@ -134,10 +134,10 @@ type BossBattle struct {
 		AnnouncementSentAt time.Time  `json:"AnnouncementSentAt"`
 		DefeatedAt         time.Time  `json:"DefeatedAt"`
 	} `json:"Event"`
-	XPBonus        int `json:"XPBonus"`
-	XPTotal        int `json:"XPTotal"`
-	XPUser         int `json:"XPUser"`
-	NumActiveUsers int `json:"NumActiveUsers"`
+	XPBonus        float64 `json:"XPBonus"`
+	XPTotal        int     `json:"XPTotal"`
+	XPUser         int     `json:"XPUser"`
+	NumActiveUsers int     `json:"NumActiveUsers"`
 }
 
 // Full course response from courses endpoint
