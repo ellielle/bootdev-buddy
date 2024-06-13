@@ -19,9 +19,9 @@ func main() {
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:       "Boot.dev Buddy",
-		Width:       1024,
-		Height:      768,
-		StartHidden: true,
+		Width:       900,
+		Height:      600,
+		StartHidden: false,
 		// Set to true to remove border
 		Frameless: true,
 		AssetServer: &assetserver.Options{
