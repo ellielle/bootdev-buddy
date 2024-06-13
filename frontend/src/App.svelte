@@ -8,7 +8,6 @@
 
   function updateUserData() {
     UserData().then((result) => ($User.userData = result));
-    console.log("updatinguser data");
   }
 
   // FIXME: doesn't run update function

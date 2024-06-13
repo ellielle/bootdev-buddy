@@ -4,7 +4,17 @@
 
 This app provides a GUI to collect and show data from [Boot.dev](https://boot.dev/). It can be used as a companion app while doing coursework to monitor on-going events, their buffs, and much more.
 
-Note: This project isn't affiliated with Boot.dev in any way. I'm just a student that wanted to make something I thought was cool.
+<details>
+	
+<summary>	
+Early UI during a boss fight
+</summary
+	
+![2024-06-11_11-11-02](https://github.com/ellielle/bootdev-buddy/assets/40385743/4d7a7f83-5c9d-43d0-b2f6-d9bd83e429a6)
+ 
+</details>
+
+> Note: This project isn't affiliated with Boot.dev in any way. I'm just a student that wanted to make something I thought was cool.
 
 ## Logging In
 
@@ -20,21 +30,30 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 
 3. Paste the token into the awaiting box, and click the `Sign in` button.
 
+4. BUG: If you don't see your account after logging in, close the app and re-open it.
+
+## Known Issues
+
+- When building the project, the foreground UI becomes invisible in the app. I recommend only running in dev mode for now (`wails dev`)
+- Reactivity in Svelte isn't working when signing in via OTP, app needs restart.
+
 ## Planned Features
 
 - [x] Sign in using Boot.dev's authentication
 - [x] In-memory cache of requests made
 - [x] Automatic sign-in on load
-- [-] View a tally of lessons completed, and see how many of each course are done
+- [x] Uses Boot.dev's API to allow you to click any lesson and go back to where you left off
+- [x] View a tally of lessons completed, and see how many of each course are done
+- [x] Boss event monitoring / participation
 - [ ] Fancier and more formatted stats
 - [ ] View other mages' profiles on leaderboard by click
 - [ ] Buff timers
-- [ ] Boss event monitoring / participation
+- [ ] Update stats on a delay
 - [ ] More(?)
 
 ## Live Development
 
-If you want to use dev mode in the browser and not with a GUI app, set `StartHidden` to `true` in `main.go`.
+If you want to use dev mode in the browser and not with a GUI app, set `StartHidden` to `true` in `main.go`. Highly recommended.
 
 ```go
 func main() {
