@@ -33,7 +33,7 @@
 <main>
   {#if $User.isLoggedIn}
     <Tabs />
-  {:else if !$User.isLoggedIn && $User.userData.Handle !== ""}
+  {:else}
     <div class="container-buddy">
       <div class="menu-container">
         <!-- show user login button if automatic sign in fails -->
