@@ -49,19 +49,23 @@
 </script>
 
 <main>
-  {#each Object.entries(stats) as stat}
-    <div>
-      {generalStats[stat[0]] + ": " + stat[1]}
-    </div>
-  {/each}
-  {#each archons as sage}
-    <div>
-      {sage?.Handle}
-    </div>
-  {/each}
-  {#each leaders as lead}
-    <div>
-      {lead?.Handle}
-    </div>
-  {/each}
+  {#if false}
+    {#each Object.entries(stats) as stat}
+      <div>
+        {generalStats[stat[0]] + ": " + stat[1]}
+      </div>
+    {/each}
+    {#each archons as sage}
+      <div>
+        {sage?.Handle}
+      </div>
+    {/each}
+    {#each leaders as lead}
+      <div>
+        {lead?.Handle}
+      </div>
+    {/each}
+  {:else}
+    Under work
+  {/if}
 </main>

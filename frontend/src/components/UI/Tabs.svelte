@@ -60,6 +60,8 @@
       {/if}
     </svelte:fragment>
 
+    <!-- TODO: shove xp bar, avatar and logout button to the right -->
+
     <!-- user profile and level -->
     <div style="display: flex;">
       {#if $User.isLoggedIn}
