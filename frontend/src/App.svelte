@@ -6,11 +6,28 @@
   import Tabs from "./components/UI/Tabs.svelte";
   import { User } from "./stores/user.js";
 
+  function updateUserData() {
+    UserData().then((result) => ($User.userData = result));
+    console.log("updatinguser data");
+  }
+
+  // FIXME: doesn't run update function
+
   onMount(() => {
     // Attempt to log the user on mount by refreshing their
     // access token
     LoginUserWithToken().then((result) => ($User.isLoggedIn = result));
     UserData().then((result) => ($User.userData = result));
+    // Update user data every 60 seconds
+    const refreshInterval = setInterval(() => {
+      if ($User.isLoggedIn) {
+        updateUserData();
+      }
+    }, 60000);
+
+    return () => {
+      clearInterval(refreshInterval);
+    };
   });
 </script>
 
