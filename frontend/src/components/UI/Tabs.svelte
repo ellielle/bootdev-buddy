@@ -8,7 +8,7 @@
   import Courses from "../content/Courses.svelte";
   import { Tab, TabGroup } from "@skeletonlabs/skeleton";
   import { User } from "../../stores/user";
-  import { LogoutUser } from "../../../wailsjs/go/main/App.js";
+  import { LogoutUser, CloseApp } from "../../../wailsjs/go/main/App.js";
 
   /** @type number */
   let tabSet = 0;
@@ -20,6 +20,10 @@
     $User.isLoggedIn = false;
     $User.isArchmage = false;
     $User.userData = {};
+  }
+
+  function handleClose() {
+    CloseApp();
   }
 </script>
 
@@ -73,5 +77,7 @@
 
     <!-- sign out button -->
     <button on:click={handleSignout}>Sign out</button>
+
+    <button on:click={handleClose} class="absolute top-5% right-5">✗</button>
   </TabGroup>
 </main>

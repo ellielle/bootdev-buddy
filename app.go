@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"log"
+	"os"
 	"time"
 
 	"github.com/wailsapp/wails/v2/pkg/runtime"
@@ -52,4 +53,8 @@ func (a *App) UserData() (bootdevapi.UserData, error) {
 	}
 
 	return userData, nil
+}
+
+func (a *App) CloseApp() {
+	os.Exit(0)
 }
