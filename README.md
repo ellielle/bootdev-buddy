@@ -32,6 +32,11 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 
 4. BUG: If you don't see your account after logging in, close the app and re-open it.
 
+## Known Issues
+
+- When building the project, the foreground UI becomes invisible in the app. I recommend only running in dev mode for now (`wails dev`)
+- Reactivity in Svelte isn't working when signing in via OTP, app needs restart.
+
 ## Planned Features
 
 - [x] Sign in using Boot.dev's authentication
@@ -45,7 +50,6 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 - [ ] Buff timers
 - [ ] Update stats on a delay
 - [ ] More(?)
-
 
 ## Live Development
 
