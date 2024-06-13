@@ -20,8 +20,6 @@
   });
 </script>
 
-<!-- BUG: the issue is most likely that you're using await / then in svelte which have their own scope, that isn't being watched or used in a reactive way. So boss data doesn't get updated. use `onMount` like in other components -->
-
 <main class="flex flex-col mx-auto">
   {#if Object.keys(boss).length === 0}
     <p>Loading...</p>

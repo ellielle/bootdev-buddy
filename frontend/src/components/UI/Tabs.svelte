@@ -60,26 +60,32 @@
       {/if}
     </svelte:fragment>
 
-    <!-- TODO: shove xp bar, avatar and logout button to the right -->
-
     <!-- user profile and level -->
-    <div style="display: flex;">
+    <div class="flex ml-auto">
       {#if $User.isLoggedIn}
-        <XPMeter
-          bind:level={$User.userData.Level}
-          bind:currentXP={$User.userData.XPForLevel}
-          levelXP={$User.userData.XPTotalForLevel}
-        />
-        <Avatar
-          bind:image={$User.userData.ProfileImageURL}
-          bind:handle={$User.userData.Handle}
-        />
+        <div class="mr-3">
+          <XPMeter
+            bind:level={$User.userData.Level}
+            bind:currentXP={$User.userData.XPForLevel}
+            levelXP={$User.userData.XPTotalForLevel}
+          />
+        </div>
+        <div class="mr-3">
+          <Avatar
+            bind:image={$User.userData.ProfileImageURL}
+            bind:handle={$User.userData.Handle}
+          />
+        </div>
       {/if}
+
+      <!-- sign out button -->
+      <div class="mr-3 items-center">
+        <button on:click={handleSignout}>Sign out</button>
+      </div>
+
+      <div>
+        <button on:click={handleClose}>✗</button>
+      </div>
     </div>
-
-    <!-- sign out button -->
-    <button on:click={handleSignout}>Sign out</button>
-
-    <button on:click={handleClose} class="absolute top-5% right-5">✗</button>
   </TabGroup>
 </main>
