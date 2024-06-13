@@ -3,7 +3,6 @@ package bootdevapi
 import (
 	"encoding/json"
 	"errors"
-	"log"
 	"net/http"
 
 	"github.com/ellielle/bootdev-buddy/internal/cache"
@@ -68,9 +67,12 @@ func CoursesProgress(c cache.Cache, token string) (CourseProgress, error) {
 	var progress CourseProgress
 
 	// check cache for a hit
+	// BUG: bug is probably in the cache for this method
+	// causes courses to not show again after being cached
+	// but only in non-headless mode
+	// BUG: the bug seems to be hiding ? haven't seen it
 	cacheHit, ok := c.Get(progressURL)
 	if ok {
-		log.Print("cache hit on progress")
 		err := json.Unmarshal([]byte(cacheHit), &progress)
 		if err != nil {
 			return CourseProgress{}, err

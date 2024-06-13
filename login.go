@@ -21,6 +21,7 @@ func (a *App) LoginUserWithOTP(OTP string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
+
 	// set token in App struct so it can be used for
 	// user-specific queries
 	a.tokens = *tokens
