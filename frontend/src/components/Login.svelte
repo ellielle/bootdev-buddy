@@ -1,6 +1,7 @@
 <script>
   import { LoginUserWithOTP } from "../../wailsjs/go/main/App.js";
   export let loggedIn;
+
   // Empty field initially for the one-time password
   let otpField = "";
 

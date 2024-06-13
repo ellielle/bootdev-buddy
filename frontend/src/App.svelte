@@ -6,8 +6,6 @@
   import Tabs from "./components/UI/Tabs.svelte";
   import { User } from "./stores/user.js";
 
-  $: loggedIn = $User.isLoggedIn;
-
   onMount(() => {
     // Attempt to log the user on mount by refreshing their
     // access token
@@ -17,10 +15,9 @@
 </script>
 
 <main>
-  {#if loggedIn}
+  {#if $User.isLoggedIn}
     <Tabs />
-  {/if}
-  {#if !$User.isLoggedIn || typeof $User.isLoggedIn != "boolean"}
+  {:else if !$User.isLoggedIn && $User.userData.Handle !== ""}
     <div class="container-buddy">
       <div class="menu-container">
         <!-- show user login button if automatic sign in fails -->
