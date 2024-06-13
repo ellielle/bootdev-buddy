@@ -1,10 +1,7 @@
 <script>
-  import { User } from "../../stores/user";
   export let level;
   export let currentXP;
   export let levelXP;
-
-  // Set stroke-dashoffset to the circumference x percentage of level completed
 </script>
 
 <main>
