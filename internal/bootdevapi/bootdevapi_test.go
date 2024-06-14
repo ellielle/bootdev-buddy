@@ -6,8 +6,6 @@ import (
 	"github.com/google/go-cmp/cmp"
 )
 
-// TODO: add more tests as API develops
-
 // Tests that the proper url is returned
 // and that the function works itself
 func TestMain(t *testing.T) {
@@ -17,8 +15,8 @@ func TestMain(t *testing.T) {
 	}{
 		"archmage":         {input: "archmage", want: "https://api.boot.dev/v1/leaderboard_archmage"},
 		"stats":            {input: "stats", want: "https://api.boot.dev/v1/leaderboard_stats"},
-		"daily":            {input: "daily", want: "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"},
-		"karma":            {input: "karma", want: "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=30"},
+		"daily":            {input: "daily", want: "https://api.boot.dev/v1/leaderboard_xp/day?limit=10"},
+		"karma":            {input: "karma", want: "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=10"},
 		"user":             {input: "user", want: "https://api.boot.dev/v1/users"},
 		"achievements":     {input: "achievements", want: "https://api.boot.dev/v1/users/achievements"},
 		"feed":             {input: "feed", want: "https://api.boot.dev/v1/lesson_completion_feed"},
