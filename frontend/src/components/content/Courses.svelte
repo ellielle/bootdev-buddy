@@ -112,6 +112,8 @@
   {#if !init}
     Loading...
   {:else}
+    <h2>Course List:</h2>
+    <sub class="mb-4">(clicking will take you to where you left off)</sub>
     {#each sortedCourses as course (course.UUID)}
       <div>
         <!-- TODO: cursor change on hover fix it -->

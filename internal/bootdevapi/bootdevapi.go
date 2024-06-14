@@ -11,9 +11,9 @@ func BootDevAPIMap(URL string) (string, error) {
 	// general global stats endpoint
 	api["stats"] = "https://api.boot.dev/v1/leaderboard_stats"
 	// daily stats endpoint
-	api["daily"] = "https://api.boot.dev/v1/leaderboard_xp/day?limit=30"
+	api["daily"] = "https://api.boot.dev/v1/leaderboard_xp/day?limit=10"
 	// discord / community karma endpoint
-	api["karma"] = "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=30"
+	api["karma"] = "https://api.boot.dev/v1/leaderboard_karma/alltime?limit=10"
 	// live course finish feed
 	api["feed"] = "https://api.boot.dev/v1/lesson_completion_feed"
 	// user data endpoint

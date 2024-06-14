@@ -13,6 +13,21 @@
   // Holds the top 30 leaderboard users
   let leaders = [];
 
+  // skeletonUI color palette numbers, reversed so I don't have to do anything
+  // funky in the HTML
+  const skeletonUINum = [
+    "900",
+    "800",
+    "700",
+    "600",
+    "500",
+    "400",
+    "300",
+    "200",
+    "100",
+    "50",
+  ];
+
   // Because separating the keys with regex is worse
   const generalStats = {
     LessonCompletions: "Lessons Completed",
@@ -46,26 +61,43 @@
     getTopCommunity();
     getGlobalStats();
   });
+
+  // TODO: split arcanum stats and leaderboard stats into their own components with refresh timers
 </script>
 
 <main>
-  {#if false}
-    {#each Object.entries(stats) as stat}
-      <div>
-        {generalStats[stat[0]] + ": " + stat[1]}
-      </div>
-    {/each}
-    {#each archons as sage}
-      <div>
-        {sage?.Handle}
-      </div>
-    {/each}
-    {#each leaders as lead}
-      <div>
-        {lead?.Handle}
-      </div>
-    {/each}
-  {:else}
-    Under work
-  {/if}
+  <div class="grid grid-cols-3">
+    <ul class="list grid">
+      <h2 class="text-primary-500">Arcanum Stats</h2>
+      {#each Object.entries(stats) as stat}
+        <li>
+          <span>
+            {generalStats[stat[0]] + ": " + stat[1]}
+          </span>
+        </li>
+      {/each}
+    </ul>
+
+    <div>
+      <h2 class="pb-5 text-primary-500">Archon Leaderboard</h2>
+      <ul class="list">
+        {#each archons as sage, index}
+          <div class="list text-warning-{skeletonUINum[index]}">
+            {sage?.Handle}
+          </div>
+        {/each}
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="pb-5 text-primary-500">Daily Leaderboard</h2>
+      <ul class="list">
+        {#each leaders as lead}
+          <div>
+            {lead?.Handle}
+          </div>
+        {/each}
+      </ul>
+    </div>
+  </div>
 </main>
