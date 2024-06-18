@@ -1,6 +1,6 @@
 <script>
   import { LoginUserWithOTP } from "../../wailsjs/go/main/App.js";
-  export let loggedIn;
+  import { User } from "../stores/user.js";
 
   // Empty field initially for the one-time password
   let otpField = "";
@@ -17,7 +17,7 @@
   // is saved for futher use, and marks the user as logged in
   function loginUser() {
     LoginUserWithOTP(otpField)
-      .then((result) => (loggedIn = result))
+      .then((result) => ($User.isLoggedIn = result))
       .catch(() => (error = "Invalid or expired OTP"));
   }
 </script>

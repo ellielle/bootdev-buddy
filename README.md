@@ -49,7 +49,6 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 - [x] View other mages' profiles on leaderboard by click
 - [ ] Fancier and more formatted stats
 - [ ] Buff timers
-- [ ] More(?)
 
 ## Live Development
 
@@ -74,6 +73,6 @@ func main() {
 
 To build a redistributable, production mode package, use `wails build`.
 
-## Why?
+## Motivation
 
 I'm a fan of monitoring software, making it look nice, and making it easy to get the information you want at a glance. I thought having a buddy app to the [Boot.dev](https://boot.dev) curriculum that could give a student more sense of community, while also monitoring your own progress, would be fun.
