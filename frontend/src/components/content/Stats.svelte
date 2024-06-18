@@ -56,7 +56,7 @@
     const refreshInterval = setInterval(() => {
       getTopDailyStats();
       getGlobalStats();
-    }, 600);
+    }, 30000);
 
     return () => {
       clearInterval(refreshInterval);
