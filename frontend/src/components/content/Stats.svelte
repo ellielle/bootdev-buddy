@@ -5,6 +5,8 @@
     TopDailyLearners,
     GlobalStats,
   } from "../../../wailsjs/go/main/App.js";
+  import { User } from "../../stores/user.js";
+  import { prevent_default } from "svelte/internal";
 
   // Holds the top 30 discord karma leaderboard users
   let archons = [];
@@ -12,21 +14,6 @@
   let stats = {};
   // Holds the top 30 leaderboard users
   let leaders = [];
-
-  // skeletonUI color palette numbers, reversed so I don't have to do anything
-  // funky in the HTML
-  const skeletonUINum = [
-    "900",
-    "800",
-    "700",
-    "600",
-    "500",
-    "400",
-    "300",
-    "200",
-    "100",
-    "50",
-  ];
 
   // Because separating the keys with regex is worse
   const generalStats = {
@@ -56,10 +43,24 @@
     GlobalStats().then((result) => (stats = result));
   }
 
+  function openBrowserLink(url) {
+    //@ts-ignore
+    window.runtime.BrowserOpenURL(url);
+  }
+
   onMount(() => {
     getTopDailyStats();
     getTopCommunity();
     getGlobalStats();
+
+    const refreshInterval = setInterval(() => {
+      getTopDailyStats();
+      getGlobalStats();
+    }, 600);
+
+    return () => {
+      clearInterval(refreshInterval);
+    };
   });
 
   // TODO: split arcanum stats and leaderboard stats into their own components with refresh timers
@@ -68,7 +69,16 @@
 <main>
   <div class="grid grid-cols-3">
     <ul class="list grid">
-      <h2 class="text-primary-500">Arcanum Stats</h2>
+      <a
+        href="https://www.boot.dev/leaderboard"
+        target="_blank"
+        on:click={(e) => {
+          e.preventDefault();
+          openBrowserLink("https://www.boot.dev/leaderboard");
+        }}
+      >
+        <h2 class="text-primary-500">Arcanum Stats</h2>
+      </a>
       {#each Object.entries(stats) as stat}
         <li>
           <span>
@@ -79,22 +89,60 @@
     </ul>
 
     <div>
-      <h2 class="pb-5 text-primary-500">Archon Leaderboard</h2>
+      <a
+        href="https://www.boot.dev/leaderboard"
+        target="_blank"
+        on:click={(e) => {
+          e.preventDefault();
+          openBrowserLink("https://www.boot.dev/leaderboard");
+        }}
+      >
+        <h2 class="pb-5 text-primary-500">Archon Leaderboard</h2>
+      </a>
       <ul class="list">
         {#each archons as sage, index}
-          <div class="list text-warning-{skeletonUINum[index]}">
-            {sage?.Handle}
+          <div class="list">
+            <a
+              href="https://www.boot.dev/u/{sage?.Handle}"
+              target="_blank"
+              on:click={(e) => {
+                e.preventDefault();
+                openBrowserLink("https://www.boot.dev/u/{sage?.Handle}");
+              }}>{sage?.Handle}</a
+            >
           </div>
         {/each}
       </ul>
     </div>
 
     <div>
-      <h2 class="pb-5 text-primary-500">Daily Leaderboard</h2>
+      <a
+        href="https://www.boot.dev/leaderboard"
+        target="_blank"
+        on:click={(e) => {
+          e.preventDefault();
+          openBrowserLink("https://www.boot.dev/leaderboard");
+        }}
+      >
+        <h2 class="pb-5 text-primary-500">Daily Leaderboard</h2>
+      </a>
       <ul class="list">
         {#each leaders as lead}
           <div>
-            {lead?.Handle}
+            <a
+              href="https://www.boot.dev/u/{lead?.Handle}"
+              target="_blank"
+              on:click={(e) => {
+                e.preventDefault();
+                openBrowserLink("https://www.boot.dev/u/{lead?.Handle}");
+              }}
+            >
+              <span
+                style={lead.Handle === $User.userData.Handle
+                  ? "color: text-warning-500"
+                  : "color: text-primary-500"}>{lead?.Handle}</span
+              >
+            </a>
           </div>
         {/each}
       </ul>
