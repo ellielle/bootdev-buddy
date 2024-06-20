@@ -6,6 +6,7 @@
   import Avatar from "../UI/Avatar.svelte";
   import Stats from "../content/Stats.svelte";
   import Courses from "../content/Courses.svelte";
+  import Inventory from "./Inventory.svelte";
   import { Tab, TabGroup } from "@skeletonlabs/skeleton";
   import { User } from "../../stores/user";
   import { LogoutUser, CloseApp } from "../../../wailsjs/go/main/App.js";
@@ -59,6 +60,13 @@
         <Archmages />
       {/if}
     </svelte:fragment>
+
+    <!-- timer for potions, if they exist -->
+
+    <!-- user inventory -->
+    <div class="flex ml-auto">
+      <Inventory />
+    </div>
 
     <!-- user profile and level -->
     <div class="flex ml-auto">

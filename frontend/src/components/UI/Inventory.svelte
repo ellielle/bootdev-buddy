@@ -24,6 +24,14 @@
   <div class="flex items-center">
     <div class="mr-4 flex">
       <img
+        src="src/assets/images/xppotion.webp"
+        alt="XP Potions"
+        style="width:25px;height:auto"
+      />
+      {$User.xpPotion}
+    </div>
+    <div class="mr-4 flex">
+      <img
         src="src/assets/images/seerstone.webp"
         alt="Seer Stone"
         style="width:25px;height:auto"
@@ -37,14 +45,6 @@
         style="width:25px;height:auto"
       />
       {$User.bakedSalmon}
-    </div>
-    <div class="mr-4 flex">
-      <img
-        src="src/assets/images/xppotion.webp"
-        alt="XP Potions"
-        style="width:25px;height:auto"
-      />
-      {$User.xpPotion}
     </div>
     <div class="mr-4 flex">
       <img
