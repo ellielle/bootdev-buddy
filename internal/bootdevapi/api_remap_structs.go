@@ -216,3 +216,13 @@ type XPPotion struct {
 	UsedAt    time.Time `json:"UsedAt"`
 	SoldAt    any       `json:"SoldAt"`
 }
+
+// Frozen flame data. Included since it seems it will
+// be used in the future
+type FrozenFlame struct {
+	UUID      string    `json:"UUID"`
+	UserUUID  string    `json:"UserUUID"`
+	CreatedAt time.Time `json:"CreatedAt"`
+	UsedAt    any       `json:"UsedAt"`
+	SoldAt    any       `json:"SoldAt"`
+}

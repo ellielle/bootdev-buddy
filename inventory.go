@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 	"strconv"
 
@@ -77,7 +78,6 @@ func (a *App) BakedSalmon() (int, error) {
 }
 
 func (a *App) XPPotion() (bootdevapi.PotionList, error) {
-
 	var potions bootdevapi.PotionList
 
 	req, err := http.NewRequest("GET", XP_URL, nil)
@@ -101,4 +101,30 @@ func (a *App) XPPotion() (bootdevapi.PotionList, error) {
 	}
 
 	return potions, nil
+}
+
+func (a *App) FrozenFlames() (int, error) {
+	req, err := http.NewRequest("GET", FLAME_URL, nil)
+	if err != nil {
+		return 0, err
+	}
+
+	var frozenFlames []bootdevapi.FrozenFlame
+
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+a.tokens.AccessToken)
+
+	resp, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return 0, err
+	}
+	defer resp.Body.Close()
+
+	log.Printf("frozen flames: %#v", resp.Body)
+
+	decoder := json.NewDecoder(resp.Body)
+	err = decoder.Decode(&frozenFlames)
+
+	// only need the length of the FrozenFlames slice
+	return len(frozenFlames), nil
 }
