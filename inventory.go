@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 
@@ -119,8 +118,6 @@ func (a *App) FrozenFlames() (int, error) {
 		return 0, err
 	}
 	defer resp.Body.Close()
-
-	log.Printf("frozen flames: %#v", resp.Body)
 
 	decoder := json.NewDecoder(resp.Body)
 	err = decoder.Decode(&frozenFlames)
