@@ -18,6 +18,7 @@
     UserData()
       .then((result) => ($User.userData = result))
       .catch((e) => console.log(e));
+
     // Update user data every 60 seconds
     const refreshInterval = setInterval(() => {
       if ($User.isLoggedIn) {
