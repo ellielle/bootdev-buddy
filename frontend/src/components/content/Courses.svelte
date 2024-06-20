@@ -92,8 +92,6 @@
 
   $: if (Object.keys(progress).length > 0) {
     init = true;
-
-    console.log("progress: ", progress.Progress);
   }
 
   // handles launching URLs outside of the app

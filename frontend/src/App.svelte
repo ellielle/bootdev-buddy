@@ -10,19 +10,21 @@
     UserData().then((result) => ($User.userData = result));
   }
 
-  // FIXME: doesn't run update function
-
-  onMount(() => {
+  // FIXME: i'm bad at svelte reactivity
+  onMount(async () => {
     // Attempt to log the user on mount by refreshing their
     // access token
     LoginUserWithToken().then((result) => ($User.isLoggedIn = result));
-    UserData().then((result) => ($User.userData = result));
+    UserData()
+      .then((result) => ($User.userData = result))
+      .catch((e) => console.log(e));
+
     // Update user data every 60 seconds
     const refreshInterval = setInterval(() => {
       if ($User.isLoggedIn) {
         updateUserData();
       }
-    }, 60000);
+    }, 30000);
 
     return () => {
       clearInterval(refreshInterval);
@@ -31,13 +33,16 @@
 </script>
 
 <main>
-  {#if $User.isLoggedIn}
+  {#if $User.isLoggedIn && $User.userData.Handle !== ""}
     <Tabs />
+  {:else if $User.isLoggedIn}
+    <p>Loading data...</p>
+    <p>Data not loading? Please restart the app!</p>
   {:else}
     <div class="container-buddy">
       <div class="menu-container">
         <!-- show user login button if automatic sign in fails -->
-        <Login bind:loggedIn={$User.isLoggedIn} />
+        <Login />
       </div>
     </div>
   {/if}

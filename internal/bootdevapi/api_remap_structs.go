@@ -199,3 +199,30 @@ type ProgressDetail struct {
 	NumMax               int    `json:"NumMax"`
 	LastViewedLessonUUID string `json:"LastViewedLessonUUID"`
 }
+
+// List of potions user has in effect / unused
+type PotionList struct {
+	ActiveXPPotions   []XPPotion `json:"ActiveXPPotions"`
+	NumUnusedXPPotion int        `json:"NumUnusedXPPotion"`
+}
+
+// XP Potion information
+type XPPotion struct {
+	ID        string    `json:"ID"`
+	CreatedAt time.Time `json:"CreatedAt"`
+	UpdatedAt time.Time `json:"UpdatedAt"`
+	UserUUID  string    `json:"UserUUID"`
+	ExpiresAt time.Time `json:"ExpiresAt"`
+	UsedAt    time.Time `json:"UsedAt"`
+	SoldAt    any       `json:"SoldAt"`
+}
+
+// Frozen flame data. Included since it seems it will
+// be used in the future
+type FrozenFlame struct {
+	UUID      string    `json:"UUID"`
+	UserUUID  string    `json:"UserUUID"`
+	CreatedAt time.Time `json:"CreatedAt"`
+	UsedAt    any       `json:"UsedAt"`
+	SoldAt    any       `json:"SoldAt"`
+}

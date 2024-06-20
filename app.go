@@ -49,7 +49,7 @@ func (a *App) startup(ctx context.Context) {
 func (a *App) UserData() (bootdevapi.UserData, error) {
 	userData, err := bootdevapi.UserInfo(a.cache, a.tokens.AccessToken)
 	if err != nil {
-		return bootdevapi.UserData{}, nil
+		return bootdevapi.UserData{}, err
 	}
 
 	return userData, nil
