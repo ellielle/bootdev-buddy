@@ -91,6 +91,8 @@
         <button on:click={handleSignout}>Sign out</button>
       </div>
 
+      <!-- FIXME: X button needs to be available at all times -->
+
       <div>
         <button on:click={handleClose}>✗</button>
       </div>

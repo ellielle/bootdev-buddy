@@ -19,7 +19,7 @@
     timer = `${minutes}:${seconds}`;
   }
 
-  let timer = null;
+  let timer = "";
   let endTime;
 
   onMount(() => {
@@ -51,7 +51,9 @@
 
 <main>
   <div class="flex items-center">
-    <div id="timer">{timer !== null ? timer : "00:00"}</div>
+    <div id="timer">
+      {timer !== "" && !timer.includes("NaN") ? timer : "00:00"}
+    </div>
     <div class="mx-4 flex">
       <img
         src="src/assets/images/xppotion.webp"

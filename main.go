@@ -20,7 +20,7 @@ func main() {
 	err := wails.Run(&options.App{
 		Title:       "Boot.dev Buddy",
 		Width:       900,
-		Height:      600,
+		Height:      720,
 		StartHidden: true,
 		// Set to true to remove border
 		Frameless: true,
