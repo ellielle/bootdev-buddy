@@ -14,6 +14,16 @@ Early UI during a boss fight
  
 </details>
 
+<details>
+	
+<summary>
+Boss completion
+</summary>
+
+![bdb](https://github.com/ellielle/bootdev-buddy/assets/40385743/6b0d398c-2512-470d-a0c7-6132b4eabe4e)
+
+</details>
+
 > Note: This project isn't affiliated with Boot.dev in any way. I'm just a student that wanted to make something I thought was cool.
 
 ## Logging In
@@ -34,7 +44,6 @@ Access tokens are only valid for 60 minutes. Once invalid, the app will attempt 
 
 ## Known Issues
 
-- When building the project, the foreground UI becomes invisible in the app. I recommend only running in dev mode for now (`wails dev`)
 - Reactivity in Svelte isn't working when signing in via OTP, app needs restart.
 
 ## Planned Features
